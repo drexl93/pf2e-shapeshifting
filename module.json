@@ -1,0 +1,21 @@
+{
+    "name": "pf2e-shapeshifting",
+    "title": "PF2e Shapeshifting",
+    "description": "Macros to help facilitate shapeshifting in PF2e",
+    "author": "drexl93",
+    "version": "1.0.0",
+    "minimumCoreVersion": "0.6.0",
+    "compatibleCoreVersion": "0.6.6",
+    "packs": [
+        {
+            "name": "PF2e Shapeshifting",
+            "label": "PF2e Shapeshifting",
+            "path": "packs/pf2e-shapeshifting.db",
+            "entity": "Macro",
+            "module": "pf2e-shapeshifting"
+        }
+    ],
+    "url": "https://github.com/drexl93/pf2e-shapeshifting",
+    "manifest": "",
+    "download": ""
+}
