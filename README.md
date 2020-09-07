@@ -33,7 +33,7 @@ These three macros are intended to simplify the lives of any Druids who need to 
 ### Token Image Change Feature
 * If you would like to use the Token Image Change feature, make sure the token has the exact name of the form appended to the end of the name of your token.
 * For example, if your token is "Bob.png", to set up tokens for the Animal Form spell you would label them as "BobCat.png", "BobBull.png", etc. The full list of the forms and their names are at the start of the macro for reference.
-* If you would like to disable the Token Image Change feature for Wild Shape, find the commented out section beginning with "// Change image". Comment out just that section (until before "// Change size") by adding "//" before each of those lines.
+* If you would like to disable the Token Image Change feature for Wild Shape, find the commented out section beginning with "// Change image" in the wildShape macro. Comment out just that section (until before "// Change size") by adding "//" before each of those lines.
 
 ---
 
