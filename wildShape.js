@@ -702,9 +702,10 @@ async function skillBonus(levelSkills, baseSkills) {
         let abbr = skillRefs[skill];
         origValue = baseSkills[abbr].value
         formValue = levelSkills[skill]
+        let label = (`${skill}`).charAt(0).toUpperCase() + (`${skill}`).slice(1);
         if (formValue > origValue) {
             const formBonus = formValue - origValue;
-            await caster.addCustomModifier(skill, `WSForm ${skill} Bonus`, formBonus, "untyped")
+            await caster.addCustomModifier(skill, `WSForm ${label} Bonus`, formBonus, "untyped")
         }
         if (wsFeats.includes("Ferocious Shape") && skill === "athletics") {
             await caster.addCustomModifier("athletics", "WSForm Ferocious Bonus", 1, "status");
@@ -934,7 +935,6 @@ formGroups.forEach(group => featNames.push(group.group))
 // From all the actor's feats, find the ones that match the names of the Wild Shape feats and put them in the wsFeats array - this will determine what forms they have access to in the dropdown.
 let wsFeats = [];
 const allFeats = (caster.data.items).filter(item => item.type === "feat") 
-console.log(allFeats)
 for (let i=0; i<allFeats.length; i++) {
     let findFeat = featNames.filter(name => name.includes(allFeats[i].name))
     wsFeats = wsFeats.concat(findFeat);

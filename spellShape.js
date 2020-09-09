@@ -394,7 +394,267 @@ let formGroups = [ // contains Attack info for the forms
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             }, 
         ]
-    }
+    },
+
+    {
+        group: "Avatar",
+        class: "avatar",
+        forms: [ 
+            {
+                name: "Abadar", 
+                attacks: [{name: "Crossbow", dsize: 10, dnum: 6, type: "Piercing", bonus: 3}],  
+                speed: {value: 50, special: "", otherSpeeds: [{type: "burrow", label: "Burrow", value: "30", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Achaekek", 
+                attacks: [{name: "Mantis Claw", dsize: 8, dnum: 6, type: "Slashing", bonus: 6}, {name: "Spine Volley", dsize: 6, dnum: 6, type: "Piercing", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Alseta", 
+                attacks: [{name: "Dagger", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Portal Toss", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3}],  
+                speed: {value: 40, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Arazni", 
+                attacks: [{name: "Rapier", dsize: 8, dnum: 6, type: "Piercing", bonus: 6}, {name: "Call Blood", dsize: 6, dnum: 6, type: "Persistent Bleed"}],  
+                speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Asmodeus", 
+                attacks: [{name: "Mace", dsize: 10, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Hell Fire", dsize: 6, dnum: 6, type: "Fire", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Besmara", 
+                attacks: [{name: "Rapier", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Ship's Cannon", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3}],  
+                speed: {value: 40, special: "", otherSpeeds: [{type: "swim", label: "Swim", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Brigh", 
+                attacks: [{name: "Light Hammer", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Bolt of Molten Bronze", dsize: 8, dnum: 6, type: "Fire", bonus: 3}],  
+                speed: {value: 60, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Calistria", 
+                attacks: [{name: "Whip", dsize: 4, dnum: 6, type: "Slashing", bonus: 6}, {name: "Savoured Sting", dsize: 6, dnum: 6, type: "Poison", bonus: 3}],  
+                speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Casandalee", 
+                attacks: [{name: "Polytool", dsize: 6, dnum: 6, type: "Slashing", bonus: 6}, {name: "Logic Blast", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Cayden Cailean", 
+                attacks: [{name: "Rapier", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Ale Splash", dsize: 6, dnum: 6, type: "Poison", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Chaldira", 
+                attacks: [{name: "Shortsword", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Fistful of Buttons", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Desna", 
+                attacks: [{name: "Starknife", dsize: 4, dnum: 6, type: "Piercing", bonus: 6}, {name: "Moonbeam", dsize: 6, dnum: 6, type: "Fire", bonus: 3}],  
+                speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Erastil", 
+                attacks: [{name: "Longbow", dsize: 8, dnum: 6, type: "Piercing", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Ghlaunder", 
+                attacks: [{name: "Proboscis", dsize: 6, dnum: 6, type: "Piercing plus 3d6 persistent Bleed", bonus: 6}, {name: "Spine Volley", dsize: 6, dnum: 6, type: "Piercing", bonus: 3}],  
+                speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Gorum", 
+                attacks: [{name: "Greatsword", dsize: 12, dnum: 6, type: "Slashing", bonus: 6}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Gozreh", 
+                attacks: [{name: "Waves", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Wind", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3}],  
+                speed: {value: 0, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}, {type: "swim", label: "Swim", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Grandmother Spider", 
+                attacks: [{name: "Leg", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Venom Web", dsize: 6, dnum: 6, type: "Poison", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Groetus", 
+                attacks: [{name: "War Flail", dsize: 10, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Dreadful Thought", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Gruhastha", 
+                attacks: [{name: "Fist", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Arrow of Enlightenment", dsize: 6, dnum: 6, type: "Piercing", bonus: 3}],  
+                speed: {value: 50, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Hei Feng", 
+                attacks: [{name: "Drunken Sword", dsize: 6, dnum: 4, type: "Slashing plus 1d6 Electricity splash", bonus: 6}, {name: "Storm Surge", dsize: 6, dnum: 4, type: "Bludgeoning plus 1d6 Electricity splash", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Iomedae", 
+                attacks: [{name: "Longsword", dsize: 8, dnum: 6, type: "Slashing", bonus: 6}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Irori", 
+                attacks: [{name: "Unfettered Strike", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Wind Strike", dsize: 4, dnum: 6, type: "Bludgeoning", bonus: 6}],  
+                speed: {value: 80, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            }, 
+            {
+                name: "Kazutal", 
+                attacks: [{name: "Machete", dsize: 6, dnum: 6, type: "Slashing", bonus: 6}, {name: "Jaguar Pounce", dsize: 6, dnum: 5, type: "Piercing plus 1d6 persistent Bleed", bonus: 3}],  
+                speed: {value: 60, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Kurgess", 
+                attacks: [{name: "Lashing Chain", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Javelin", dsize: 6, dnum: 6, type: "Piercing", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}, {type: "swim", label: "Swim", value: "50", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Lamashtu", 
+                attacks: [{name: "Falchion", dsize: 10, dnum: 6, type: "Slashing", bonus: 6}, {name: "Waters of Lamashtu", dsize: 6, dnum: 6, type: "Poison", bonus: 3}],  
+                speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Milani", 
+                attacks: [{name: "Morningstar", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6}],  
+                speed: {value: 50, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Nethys", 
+                attacks: [{name: "Raw Magic", dsize: 6, dnum: 6, type: "Force"}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Nivi Rhombodazzle", 
+                attacks: [{name: "Returning Light Hammer", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6}],  
+                speed: {value: 50, special: "", otherSpeeds: [{type: "burrow", label: "Burrow", value: "30", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Nocticula", 
+                attacks: [{name: "Tail Stinger", dsize: 6, dnum: 6, type: "Slashing", bonus: 6}, {name: "Magnanimous Smile", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Norgorber", 
+                attacks: [{name: "Shortsword", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Blackfinger Toss", dsize: 6, dnum: 6, type: "Poison", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Pharasma", 
+                attacks: [{name: "Dagger", dsize: 6, dnum: 6, type: "Slashing", bonus: 6}, {name: "Spiral Blast", dsize: 8, dnum: 6, type: "Positive", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Rovagug", 
+                attacks: [{name: "Jaws", dsize: 12, dnum: 6, type: "Piercing", bonus: 6}, {name: "Leg", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6}],  
+                speed: {value: 50, special: "", otherSpeeds: [{type: "burrow", label: "Burrow", value: "30", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Sarenrae", 
+                attacks: [{name: "Scimitar", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Everflame", dsize: 6, dnum: 6, type: "Fire", bonus: 3}],  
+                speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Shelyn", 
+                attacks: [{name: "Glaive", dsize: 8, dnum: 6, type: "Slashing", bonus: 6}, {name: "Melody of Inner Beauty", dsize: 6, dnum: 6, type: "Sonic", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Shizuru", 
+                attacks: [{name: "Katana", dsize: 6, dnum: 6, type: "Slashing", bonus: 6}, {name: "Sunbolt Arrow", dsize: 6, dnum: 6, type: "Fire", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Sivanah", 
+                attacks: [{name: "Bladed Scarf", dsize: 8, dnum: 6, type: "Slashing", bonus: 6}, {name: "Illusory Assault", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Torag", 
+                attacks: [{name: "Warhammer", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6}],  
+                speed: {value: 50, special: "", otherSpeeds: [{type: "burrow", label: "Burrow", value: "30", exceptions: ""}]},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Tsukiyo", 
+                attacks: [{name: "Longspear", dsize: 10, dnum: 6, type: "Piercing", bonus: 6}, {name: "Moonbeam", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Urgathoa", 
+                attacks: [{name: "Scythe", dsize: 10, dnum: 6, type: "Slashing", bonus: 6}, {name: "Pallid Plague", dsize: 6, dnum: 6, type: "Negative", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+            {
+                name: "Zon-Kuthon", 
+                attacks: [{name: "Spiked Chain", dsize: 8, dnum: 6, type: "Slashing", bonus: 6}, {name: "Midnight Pain", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                speed: {value: 70, special: "", otherSpeeds: []},
+                senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+            },
+        ]
+    },
+
+    {
+        group: "Primal Herd",
+        class: "primalHerd",
+        forms: [ 
+            {
+                name: "Mammoth", 
+                attacks: [{name: "Tusk", dsize: 8, dnum: 4, type: "Piercing", bonus: 19}, {name: "Trunk", dsize: 6, dnum: 4, type: "Bludgeoning", bonus: 16}, {name: "Foot (agile)", dsize: 6, dnum: 4, type: "Bludgeoning", bonus: 13}], 
+                speed: {value: 40, special: "", otherSpeeds: []},
+                senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}],
+            },
+        ]
+    },
 ];
 
 let scalingAttributes = { // for sizes, 1 is Medium, 2 is Large, 3 is Huge, 4 is Gargantuan
@@ -463,6 +723,16 @@ let scalingAttributes = { // for sizes, 1 is Medium, 2 is Large, 3 is Huge, 4 is
     trueShapeshifter:
     [// True Shapeshifter form
         {level: 10, mod: 34, ac: 25, temphp: 30, skills: {athletics: 36}, size: 4},
+    ],
+
+    avatar:
+    [// Avatar form
+        {level: 10, mod: 33, ac: 25, temphp: 30, skills: {athletics: 35}, size: 3},
+    ],
+
+    primalHerd:
+    [// Primal Herd form
+        {level: 10, mod: 0, ac: 22, temphp: 20, skills: {athletics: 30}, size: 3},
     ]
 };
 
@@ -673,6 +943,7 @@ async function skillBonus(levelSkills, baseSkills) {
         let abbr = skillRefs[skill];
         origValue = baseSkills[abbr].value
         formValue = levelSkills[skill]
+        let label = (`${skill}`).charAt(0).toUpperCase() + (`${skill}`).slice(1);
         if (formValue > origValue) {
             const formBonus = formValue - origValue;
             await caster.addCustomModifier(skill, `Spellform ${skill} Bonus`, formBonus, "untyped")
