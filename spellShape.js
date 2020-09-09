@@ -946,7 +946,7 @@ async function skillBonus(levelSkills, baseSkills) {
         let label = (`${skill}`).charAt(0).toUpperCase() + (`${skill}`).slice(1);
         if (formValue > origValue) {
             const formBonus = formValue - origValue;
-            await caster.addCustomModifier(skill, `Spellform ${skill} Bonus`, formBonus, "untyped")
+            await caster.addCustomModifier(skill, `Spellform ${label} Bonus`, formBonus, "untyped")
         }
     }
 }
