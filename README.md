@@ -38,7 +38,6 @@ These three macros are intended to simplify the lives of any Druids who need to 
 ---
 
 ### Future Plans
-* Add in support for Avatar and Primal Herd
 * Look into ways of representing special properties of creatures (such as the White Dragon's ability to climb only ice, or the Flytrap's ability to spend an action after a hit to Grab the target)
 * For Wild Shape, check whether Focus Point is available and deduct one per usage
 
