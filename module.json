@@ -15,6 +15,9 @@
             "module": "pf2e-shapeshifting"
         }
     ],
+    "scripts": [
+        "init.js"
+    ],
     "url": "https://github.com/drexl93/pf2e-shapeshifting",
     "manifest": "https://github.com/drexl93/pf2e-shapeshifting/module.json",
     "download": "https://github.com/drexl93/pf2e-shapeshifting/releases/download/3.0.0/pf2e-shapeshifting.zip"
