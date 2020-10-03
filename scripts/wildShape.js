@@ -869,8 +869,12 @@ async function transform(html) {
             // if Form Attack Mod is less than Unarmed Attack mod of the actor, add a +2 to Unarmed
             // Attack mod and let the form attacks use that instead
             formValue = levelAttributes.mod
-            origValue = ((caster.data.data.actions).find(action => action.name === "Fist")).totalModifier
-            if (formValue < origValue) {
+            if ((caster.data.data.actions).find(action => action.name === "Handwraps of Mighty Blows")) {
+                origValue = (caster.data.data.actions).find(action => action.name === "Handwraps of Mighty Blows").totalModifier
+            } else {
+                origValue = ((caster.data.data.actions).find(action => action.name === "Fist")).totalModifier
+            }
+            if (formValue < (origValue + 2)) {
                 await caster.addCustomModifier("attack", "WSForm Bonus", 2, "status");
                 levelAttributes.ownMod = (origValue + 2);
                 await caster.setFlag("world", "ws_levelAttributes", levelAttributes)
