@@ -1,3 +1,5 @@
+# NOTE: I strongly recommend returning to your normal shape at the end of a game session, just in case a Pathfinder 2E Game System update occurs which changes the data structures the macros use.
+
 # Pathfinder 2E Shapeshifting Macros
 These three macros are intended to simplify the lives of any Druids who need to Wild Shape, or any casters using the plethora of Form Spells available. They require The Furnace to be enabled, and the player using them must have at least Trusted permissions:
 
