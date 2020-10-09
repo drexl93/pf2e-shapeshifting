@@ -503,7 +503,6 @@ let formValue = 0;
 let origValue = 0;
 let origSpeeds = {};
 let origSenses = [];
-let bypassTo = "";
 
 if (!token) {
     ui.notifications.error("Please select a token"); 
@@ -599,14 +598,20 @@ async function resetTempHP() {
 
 // Apply wide ranging bonuses gained from having specific wild shape feats
 async function featCheck(formData, formType){
+    // If the actor has the feat, and is not transforming into one of the forms granted
+    // by that feat, they get the appropriate resistance
     if (wsFeats.includes("Elemental Shape") && formType !== "elementalShape") {
+        // if the form doesn't have any resistances, add fire resistance 5
         if (!formData.resistances) {
             formData.resistances = {fire: 5};
+        // if the form has resistances, but no fire resistance, OR if they have fire resistance,
+        // but not fire resistance of 5 or greater, they have fire resistance 5
         } else if (!formData.resistances.fire || (formData.resistances.fire && (formData.resistances.fire < 5))) {
             formData.resistances.fire = 5
         }
     }
 
+    // same logic as for plant form
     if (wsFeats.includes("Plant Shape") && formType !== "plantShape") {
         if (!formData.resistances) {
             formData.resistances = {poison: 5};
@@ -636,6 +641,7 @@ async function applyResistances(formData) {
                 })
             }
         }
+
         // create a copy of the resistances array and set resistances to that, so
         // it is preserved when game is reloaded (owing to pass by reference)
         let newResistances = JSON.parse(JSON.stringify(actor.data.data.traits.dr))
@@ -692,18 +698,22 @@ async function setSize(newSize){
 
 // if the form level's skill bonuses are greater than the character's, use those
 // apply any feat bonuses if applicable
-async function skillBonus(levelSkills, baseSkills) {
+async function skillBonus(levelSkills, baseSkills, formName) {
+    // 'skills' will become an array of the skills the form at this level gives you access to
     let skills = Object.keys(levelSkills)
+    // for each item of the 'skills' array, find the appropriate skill abbreviation from the 
+    // skillrefs array. This logic allows for a single form to grant new values to multiple skills
     for (let skill of skills) {
-        if (bypassTo === "athElemental") { skill = "athletics"; }
-        else if (bypassTo === "acrElemental") { skill = "acrobatics" }
+        // Earth/Water elementals get only a bonus to atheltics, Air/Fire only to acrobatics
+        if (formName === "Earth" || formName === "Water") { skill = "athletics"; }
+        else if (formName === "Air" || formName === "Fire") { skill = "acrobatics" }
         let abbr = skillRefs[skill];
-        origValue = baseSkills[abbr].value
-        formValue = levelSkills[skill]
-        let label = (`${skill}`).charAt(0).toUpperCase() + (`${skill}`).slice(1);
+        origValue = baseSkills[abbr].value // the original value the actor has for that skill
+        formValue = levelSkills[skill] // get the new (form) value of the skill
+
         if (formValue > origValue) {
             const formBonus = formValue - origValue;
-            await actor.addCustomModifier(skill, `WSForm ${label} Bonus`, formBonus, "untyped")
+            await actor.addCustomModifier(skill, `WSForm ${skill} Bonus`, formBonus, "untyped")
         }
         if (wsFeats.includes("Ferocious Shape") && skill === "athletics") {
             await actor.addCustomModifier("athletics", "WSForm Ferocious Bonus", 1, "status");
@@ -720,19 +730,19 @@ async function skillBonus(levelSkills, baseSkills) {
 // into a non-Dragon form
 async function dragonResistance() {
     let content2 = "";
-    content2 += `<p><label for="resistance">Choose your resistance:</label>
-                        <select name="resistance" id="resistance">
+    content2 += `<div style="text-align: center"><label for="resistance">Choose your resistance:</label>
+                        <select name="resistance" id="resistance" style="margin: 5px 0">
                         <option value="acid">Acid</option>
                         <option value="cold">Cold</option>
                         <option value="electricity">Electricity</option>
                         <option value="fire">Fire</option>
-                        <option value="poison">Poison</option></select></p>`
-    new Dialog({
-        title: "Choose Resistance",
+                        <option value="poison">Poison</option></select></div>`
+    let d2 = new Dialog({
+        title: "Draconic Resistance",
         content: content2,
         buttons: {
             select: {
-                icon: "<i class='fas fa-check'></i>",
+                icon: "<i class='fas fa-dragon'></i>",
                 label: "Select",
                 callback: async (html) => {
                     let type = html.find("#resistance")[0].value;
@@ -745,12 +755,13 @@ async function dragonResistance() {
                     await applyResistances(formData);
                 }
             },
-            cancel: {
-                icon: "<i class='fas fa-times'></i>",
-                label: "Cancel"
-            }
         }
-    }).render(true);
+    })
+    d2.options.width = 210
+    d2.position.width = 210
+    d2.options.height = 135
+    d2.position.height = 135
+    d2.render(true);
 }
 
 // -------------------------------------------------------------------
@@ -849,12 +860,8 @@ async function transform(html) {
 
             // if Form Athletics/Acrobatics bonus is greater than base Athletics/Acrobatics, add
             // Form Bonus to Athletics/Acrobatics value
-            if (formData.name == "Air" || formData.name == "Fire") {
-                bypassTo = "acrElemental"
-            } else if (formData.name == "Earth" || formData.name == "Water") {
-                bypassTo = "athElemental"
-            }
-            await skillBonus(levelAttributes.skills, actor.data.data.skills);
+
+            await skillBonus(levelAttributes.skills, actor.data.data.skills, formData.name);
 
             // if Form AC bonus is greater than base AC, add Form Bonus to AC value
             formValue = levelAttributes.ac + actor.data.data.details.level.value;
@@ -943,7 +950,7 @@ for (let i=0; i<allFeats.length; i++) {
 }
 
 // Populate dropdown based on what Wild Shape feats the actor has, and divide them by group
-content += `<label for="forms">Choose your form</label>
+content += `<div style="padding: 0 10px"><label for="forms">Choose your form</label>
 <select name="forms" id="forms">`
 for (let formGroup of formGroups) {
     if (wsFeats.includes(formGroup.group)) {
@@ -958,22 +965,22 @@ for (let formGroup of formGroups) {
 }
 content += `</select>`
 
-content += `<p><label for="level">What level are you casting at?</label>
+content += `<div style="padding: 5px 0"><label for="level">What level are you casting at?</label>
 <select name="level" id="level">
 <option value="Auto" selected>Auto</option>`
 for (let i = 1; i <= heightenedLevel; i++){
     content += `<option value=${i}>${i}</option>`
 }
-content += `</select>`
+content += `</select></div></div>`
 
 // Generate dialog
 
-new Dialog({
+let d = new Dialog({
     title: "Wild Shape",
     content: content,
     buttons: {
       morph: {
-        icon: "<i class='fas fa-check'></i>",
+        icon: "<i class='fas fa-magic'></i>",
         label: "Transform!",
         callback: (html) => transform(html),
       },
@@ -982,9 +989,8 @@ new Dialog({
           label: "Revert",
           callback: () => reset(),
       },
-      cancel: {
-        icon: "<i class='fas fa-times'></i>",
-        label: "Cancel",
-      },
     },
-}).render(true);
+})
+d.options.width = 300
+d.position.width = 300
+d.render(true);

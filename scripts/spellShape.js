@@ -835,10 +835,10 @@ async function reset(){
 
     // Remove any resistances/weaknesses that were given by transformation
     let filterOut = actor.data.data.traits.dv.filter(element => 
-        !element.label.includes("Form"))
+        !element.label.includes("Spellform"))
     await actor.update({ "data.traits.dv" : filterOut });
     filterOut = actor.data.data.traits.dr.filter(element => 
-        !element.label.includes("Form"))
+        !element.label.includes("Spellform"))
     await actor.update({ "data.traits.dr" : filterOut });
 
     // reset Speeds and Senses to normal
@@ -933,18 +933,22 @@ async function setSize(newSize){
 // -------------------------------------------------------------------
 
 // if the form level's skill bonuses are greater than the character's, use those
-async function skillBonus(levelSkills, baseSkills) {
+async function skillBonus(levelSkills, baseSkills, formName) {
+    // 'skills' will become an array of the skills the form at this level gives you access to
     let skills = Object.keys(levelSkills)
+    // for each item of the 'skills' array, find the appropriate skill abbreviation from the 
+    // skillrefs array. This logic allows for a single form to grant new values to multiple skills
     for (let skill of skills) {
-        if (bypassTo === "athElemental") { skill = "athletics"; }
-        else if (bypassTo === "acrElemental") { skill = "acrobatics" }
+        // Earth/Water elementals get only a bonus to atheltics, Air/Fire only to acrobatics
+        if (formName === "Earth" || formName === "Water") { skill = "athletics"; }
+        else if (formName === "Air" || formName === "Fire") { skill = "acrobatics" }
         let abbr = skillRefs[skill];
-        origValue = baseSkills[abbr].value
-        formValue = levelSkills[skill]
-        let label = (`${skill}`).charAt(0).toUpperCase() + (`${skill}`).slice(1);
+        origValue = baseSkills[abbr].value // the original value the actor has for that skill
+        formValue = levelSkills[skill] // get the new (form) value of the skill
+
         if (formValue > origValue) {
             const formBonus = formValue - origValue;
-            await actor.addCustomModifier(skill, `Spellform ${label} Bonus`, formBonus, "untyped")
+            await actor.addCustomModifier(skill, `Spellform ${skill} Bonus`, formBonus, "untyped")
         }
     }
 }
@@ -974,8 +978,7 @@ async function setSenses() {
 // -------------------------------------------> Main Transform Function Part 1
 
 async function chooseSpell(spellName, className) {
-    let content2 = "";
-    content2 += `<p><label for="forms">Choose your form:</label>
+    let content2 = `<div style="text-align: center"><div style="padding: 2px"><label for="forms">Choose your form:</label>
     <select name="forms" id="forms">`
     for (let formGroup of formGroups) {
         if (formGroup.group === spellName) {
@@ -984,9 +987,9 @@ async function chooseSpell(spellName, className) {
             })
         }
     }
-    content2 += `</select></p>
+    content2 += `</select></div>
 
-    <p><label for="level">What level are you casting at?</label>
+    <div style="padding: 2px"><label for="level">What level are you casting at?</label>
     <select name="level" id="level">`
     for (let scalingArray in scalingAttributes) {
         if (scalingArray === className) {
@@ -995,11 +998,12 @@ async function chooseSpell(spellName, className) {
             })
         }
     }
-    content2 += `</select></p>`
-    content2 += `<p><label for="imgchange">Change token image?</label>
-    <input type="checkbox" name="imgchange" id="imgchange">`
+    content2 += `</select></div>`
+    content2 += `<div style="padding: 2px"><label for="imgchange" style="display: inline-block; vertical-align: middle; position:relative">
+    Change token image?</label>
+    <input type="checkbox" name="imgchange" id="imgchange" style="position: relative; vertical-align:middle"></div></div>`
 
-    new Dialog({
+    let d2 = new Dialog({
         title: "Choose Form",
         content: content2,
         buttons: {
@@ -1012,13 +1016,12 @@ async function chooseSpell(spellName, className) {
                     let imgChange = html.find("#imgchange")[0].checked;
                     chooseForm(actualForm, castingLevel, imgChange, className);
                 }
-            },
-            cancel: {
-                icon: "<i class='fas fa-times'></i>",
-                label: "Cancel"
             }
         }
-    }).render(true);
+    })
+    d2.options.width = 300
+    d2.position.width = 300
+    d2.render(true);
 }
 
 // ----------------------------> Main Transform Function Part 2
@@ -1054,14 +1057,7 @@ async function chooseForm(actualForm, castingLevel, imgChange, className) {
 
         await applyResistances(formData);
 
-        // if Form Athletics/Acrobatics bonus is greater than base Athletics/Acrobatics, add 
-        // Form Bonus to Athletics/Acrobatics value
-        if (formData.name == "Air" || formData.name == "Fire") {
-            bypassTo = "acrElemental"
-        } else if (formData.name == "Earth" || formData.name == "Water") {
-            bypassTo = "athElemental"
-        }
-        await skillBonus(levelAttributes.skills, actor.data.data.skills);
+        await skillBonus(levelAttributes.skills, actor.data.data.skills, formData.name);
 
         // if Form AC bonus is greater than base AC, add Form Bonus to AC value
         formValue = levelAttributes.ac + actor.data.data.details.level.value;
@@ -1071,7 +1067,7 @@ async function chooseForm(actualForm, castingLevel, imgChange, className) {
             await actor.addCustomModifier("ac", "Spellform Bonus AC", formACBonus, "untyped");
         }
 
-        // rememeber original senses for reset
+        // remember original senses for reset
         origSenses = JSON.parse(JSON.stringify(actor.data.data.traits.senses));
         await actor.setFlag("world", "ss_origSenses", origSenses);
         await setSenses();
@@ -1125,19 +1121,19 @@ if (isWildShaped) {
 }
 
 // Populate dropdown with all Form Spells
-content += `<p><label for="spells">What spell are you casting?</label>
-<select name="spells" id="spells">`
+content += `<div style="text-align: center; padding: 0 0 10px"><label for="spells">What spell are you casting?</label>
+<div style="padding: 5px 0 0"><select name="spells" id="spells">`
 for (let formGroup of formGroups) {
     content += `<option value="${formGroup.group}" class="${formGroup.class}">${formGroup.group}</option>`
 }
-content += `</select></p>`
+content += `</select></div></div>`
 
-new Dialog({
+let d = new Dialog({
     title: "Choose Spell",
     content: content,
     buttons: {
         spell: {
-            icon: "<i class='fas fa-check'></i>",
+            icon: "<i class='fas fa-magic'></i>",
             label: "Next",
             callback: (html) => {
                 if (formData) {
@@ -1154,10 +1150,9 @@ new Dialog({
             icon: "<i class='fas fa-undo'></i>",
             label: "Revert",
             callback: () => reset(),
-        },
-        cancel: {
-            icon: "<i class='fas fa-times'></i>",
-            label: "Cancel"
-        },
-    },
-}).render(true);
+        }
+    }
+})
+d.options.width = 250
+d.position.width = 250
+d.render(true);
