@@ -22,10 +22,11 @@ These three macros are intended to simplify the lives of any Druids who need to 
 * Very similar functionality to Wild Shape, without the Feat bonuses or restrictions
 * Also pairs with the attack macro, and scales according to the selected spell level
 
-## Shape Attack Macro
+## Shape Strike Macro
 * Once transformed, offers a choice of the Form's attacks, using embedded data to roll correct level-scaled damage
 * Correctly represents Agile attacks and additional damage dice
 * Indicates but does not roll Persistent Damage, as Persistent Damage does not happen immediately
+* Uses correct attack modifier, including Wild Shape rules for bonuses using your own modifier rather than the Form's.
 
 ---
 
