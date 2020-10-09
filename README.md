@@ -1,4 +1,7 @@
 # Pathfinder 2E Shapeshifting Macros
+
+## NOTE: I strongly recommend returning to your normal shape at the end of a game session, just in case a Pathfinder 2E Game System update occurs which changes the data structures the macros use.
+
 These three macros are intended to simplify the lives of any Druids who need to Wild Shape, or any casters using the plethora of Form Spells available. They require The Furnace to be enabled, and the player using them must have at least Trusted permissions:
 
 ## Wild Shape Macro
@@ -19,10 +22,11 @@ These three macros are intended to simplify the lives of any Druids who need to 
 * Very similar functionality to Wild Shape, without the Feat bonuses or restrictions
 * Also pairs with the attack macro, and scales according to the selected spell level
 
-## Shape Attack Macro
+## Shape Strike Macro
 * Once transformed, offers a choice of the Form's attacks, using embedded data to roll correct level-scaled damage
 * Correctly represents Agile attacks and additional damage dice
 * Indicates but does not roll Persistent Damage, as Persistent Damage does not happen immediately
+* Uses correct attack modifier, including Wild Shape rules for bonuses using your own modifier rather than the Form's.
 
 ---
 
