@@ -505,20 +505,18 @@ let origSpeeds = {};
 let origSenses = [];
 let bypassTo = "";
 
-const tok = canvas.tokens.controlled[0]
-const caster = tok.actor;
-if (!tok) {
+if (!token) {
     ui.notifications.error("Please select a token"); 
     return; 
 }
-let tempHP = caster.data.data.attributes.hp.temp;
+let tempHP = actor.data.data.attributes.hp.temp;
 if (!tempHP) {
     tempHP = 0;
 }
-let formData = caster.getFlag("world", "ws_formData");
-let isSpellShaped = caster.getFlag("world", "ss_formData");
+let formData = actor.getFlag("world", "ws_formData");
+let isSpellShaped = actor.getFlag("world", "ss_formData");
 let levelAttributes;
-let heightenedLevel = Math.ceil((caster.data.data.details.level.value) / 2); 
+let heightenedLevel = Math.ceil((actor.data.data.details.level.value) / 2); 
 
 
 // -------------------------------------------------------------------
@@ -526,9 +524,9 @@ let heightenedLevel = Math.ceil((caster.data.data.details.level.value) / 2);
 // -------------------------------------------------------------------
 
 async function removeCustomMods() {
-    let customMods = Object.keys(caster.data.data.customModifiers)
+    let customMods = Object.keys(actor.data.data.customModifiers)
     for (let element of customMods) {
-        for (let mod of caster.data.data.customModifiers[element]) {
+        for (let mod of actor.data.data.customModifiers[element]) {
             if (mod.name.includes("WSForm")) {
                 await removeMod(element, mod.name)
             }
@@ -539,8 +537,8 @@ async function removeCustomMods() {
 // -------------------------------------------------------------------
 
 async function removeMod(type, label) {
-    if (caster.data.data.customModifiers[type]) {
-        await caster.removeCustomModifier(`${type}`, label);
+    if (actor.data.data.customModifiers[type]) {
+        await actor.removeCustomModifier(`${type}`, label);
     }
 }
 
@@ -548,33 +546,33 @@ async function removeMod(type, label) {
 
 async function reset(){
     // back to default image, if we changed it
-    let img = caster.getFlag("world", "ws_origImg");
+    let img = actor.getFlag("world", "ws_origImg");
     if (img) {
-        await tok.update({ img });
-        await caster.update({ "token.img" : img })
+        await token.update({ img });
+        await actor.update({ "token.img" : img })
     }
 
     // This resets the token size. If you use small-size tokens in your game, delete the '//'s 
     // preceding the next complete 'if' statement. This will ensure Small PCs revert to their 
     // correct size rather than becoming Medium.
     
-    // if (caster.data.data.traits.size.value === "med"){
+    // if (actor.data.data.traits.size.value === "med"){
     await setSize(1);
-    // } else if (caster.data.data.traits.size.value === "sm"){
+    // } else if (actor.data.data.traits.size.value === "sm"){
     //    await setSize(0.5);
     // };
 
     // remove all form attributes from token
-    await caster.unsetFlag("world", "ws_formData")
-    await caster.unsetFlag("world", "ws_levelAttributes")
+    await actor.unsetFlag("world", "ws_formData")
+    await actor.unsetFlag("world", "ws_levelAttributes")
 
     // Remove any resistances/weaknesses that were given by transformation
-    let filterOut = caster.data.data.traits.dv.filter(element => 
+    let filterOut = actor.data.data.traits.dv.filter(element => 
         !element.label.includes("WSForm"))
-    await caster.update({ "data.traits.dv" : filterOut });
-    filterOut = caster.data.data.traits.dr.filter(element => 
+    await actor.update({ "data.traits.dv" : filterOut });
+    filterOut = actor.data.data.traits.dr.filter(element => 
         !element.label.includes("WSForm"))
-    await caster.update({ "data.traits.dr" : filterOut });
+    await actor.update({ "data.traits.dr" : filterOut });
 
     // reset Speeds and Senses to normal
     await resetSenses();
@@ -590,10 +588,10 @@ async function reset(){
 // -------------------------------------------------------------------
 
 async function resetTempHP() {
-    let oldTempHP = await caster.getFlag("world", "ws_tempHPChanged")
+    let oldTempHP = await actor.getFlag("world", "ws_tempHPChanged")
     if (oldTempHP >= 0) {
-        await caster.unsetFlag("world", "ws_tempHPChanged")
-        await caster.update({ "data.attributes.hp.temp": oldTempHP });
+        await actor.unsetFlag("world", "ws_tempHPChanged")
+        await actor.update({ "data.attributes.hp.temp": oldTempHP });
     }  
 }
 
@@ -630,7 +628,7 @@ async function applyResistances(formData) {
         let resistances = formData.resistances;
         for (let type in resistances) {
             if (resistances.hasOwnProperty(type)) {
-                caster.data.data.traits.dr.push({
+                actor.data.data.traits.dr.push({
                     type: type, 
                     label: `WSForm ${type}`, 
                     value: resistances[type], 
@@ -640,15 +638,15 @@ async function applyResistances(formData) {
         }
         // create a copy of the resistances array and set resistances to that, so
         // it is preserved when game is reloaded (owing to pass by reference)
-        let newResistances = JSON.parse(JSON.stringify(caster.data.data.traits.dr))
-        await caster.update({ "data.traits.dr" : newResistances })
+        let newResistances = JSON.parse(JSON.stringify(actor.data.data.traits.dr))
+        await actor.update({ "data.traits.dr" : newResistances })
     }
 
     if (formData.weaknesses) {
         let weaknesses = formData.weaknesses;
         for (let type in weaknesses) {
             if (weaknesses.hasOwnProperty(type)) {
-                caster.data.data.traits.dv.push({
+                actor.data.data.traits.dv.push({
                     type: type, 
                     label: `WSForm ${type}`, 
                     value: weaknesses[type], 
@@ -656,25 +654,25 @@ async function applyResistances(formData) {
                 })
             }
         }
-        let newWeaknesses = JSON.parse(JSON.stringify(caster.data.data.traits.dv))
-        await caster.update({ "data.traits.dv" : newWeaknesses })
+        let newWeaknesses = JSON.parse(JSON.stringify(actor.data.data.traits.dv))
+        await actor.update({ "data.traits.dv" : newWeaknesses })
     }
 }
 
 // -------------------------------------------------------------------
 
 async function resetSpeeds() {
-    let revert = caster.getFlag("world", "ws_origSpeeds")
-    await caster.update({ "data.attributes.speed" : revert})
-    await caster.unsetFlag("world", "ws_origSpeeds")
+    let revert = actor.getFlag("world", "ws_origSpeeds")
+    await actor.update({ "data.attributes.speed" : revert})
+    await actor.unsetFlag("world", "ws_origSpeeds")
 }
 
 // -------------------------------------------------------------------
 
 async function resetSenses() {
-    let revert = caster.getFlag("world", "ws_origSenses")
-    await caster.update({ "data.traits.senses" : revert})
-    await caster.unsetFlag("world", "ws_origSenses")
+    let revert = actor.getFlag("world", "ws_origSenses")
+    await actor.update({ "data.traits.senses" : revert})
+    await actor.unsetFlag("world", "ws_origSenses")
 }
 
 // -------------------------------------------------------------------
@@ -682,11 +680,11 @@ async function resetSenses() {
 // scales up token depending on the provided size of the new form
 async function setSize(newSize){ 
     if (formData && formData.size) {
-        tok.update({ width: formData.size, height: formData.size });
-        await caster.update({ "token.width": formData.size, "token.height": formData.size });
+        token.update({ width: formData.size, height: formData.size });
+        await actor.update({ "token.width": formData.size, "token.height": formData.size });
     } else {
-        tok.update({ width: newSize, height: newSize });
-        await caster.update({ "token.width" : newSize, "token.height" : newSize})
+        token.update({ width: newSize, height: newSize });
+        await actor.update({ "token.width" : newSize, "token.height" : newSize})
     }
 };
 
@@ -705,13 +703,13 @@ async function skillBonus(levelSkills, baseSkills) {
         let label = (`${skill}`).charAt(0).toUpperCase() + (`${skill}`).slice(1);
         if (formValue > origValue) {
             const formBonus = formValue - origValue;
-            await caster.addCustomModifier(skill, `WSForm ${label} Bonus`, formBonus, "untyped")
+            await actor.addCustomModifier(skill, `WSForm ${label} Bonus`, formBonus, "untyped")
         }
         if (wsFeats.includes("Ferocious Shape") && skill === "athletics") {
-            await caster.addCustomModifier("athletics", "WSForm Ferocious Bonus", 1, "status");
+            await actor.addCustomModifier("athletics", "WSForm Ferocious Bonus", 1, "status");
         }
         if (wsFeats.includes("Soaring Shape") && skill === "acrobatics") {
-            await caster.addCustomModifier("acrobatics", "WSForm Soaring Bonus", 1, "status");
+            await actor.addCustomModifier("acrobatics", "WSForm Soaring Bonus", 1, "status");
         }
     }
 }
@@ -761,9 +759,9 @@ async function dragonResistance() {
 async function changeSpeeds() {
     // if there are any changes to speed at this level of the spell, use those
     if (levelAttributes.speed) {
-        await caster.update({ "data.attributes.speed" : levelAttributes.speed })
+        await actor.update({ "data.attributes.speed" : levelAttributes.speed })
     } else {  // otherwise use the form's base speeds
-        await caster.update({ "data.attributes.speed" : formData.speed })
+        await actor.update({ "data.attributes.speed" : formData.speed })
     }
 }
 
@@ -773,9 +771,9 @@ async function changeSpeeds() {
 async function setSenses() {
     // if there are any changes to senses at this level of the spell, use those
     if (levelAttributes.senses) {
-        await caster.update({ "data.traits.senses" : levelAttributes.senses })
+        await actor.update({ "data.traits.senses" : levelAttributes.senses })
     } else { // otherwise use the form's base senses
-        await caster.update({ "data.traits.senses" : formData.senses })
+        await actor.update({ "data.traits.senses" : formData.senses })
     }
 }
 
@@ -809,7 +807,7 @@ async function transform(html) {
                 // find the class in formGroups that matches the formType from the selected option in the dialog
                 if (group.class === formType) { 
                     formData = (group.forms).find(element => element.name === actualForm);
-                    await caster.setFlag("world", "ws_formData", formData);
+                    await actor.setFlag("world", "ws_formData", formData);
                 }
             }
 
@@ -825,7 +823,7 @@ async function transform(html) {
                     scalingAttributes[formType].forEach(element => {
                         if ((element.level + i) === heightenedLevel) {
                             levelAttributes = element;
-                            caster.setFlag("world", "ws_levelAttributes", levelAttributes)
+                            actor.setFlag("world", "ws_levelAttributes", levelAttributes)
                             return;
                         }
                     })
@@ -837,12 +835,12 @@ async function transform(html) {
             if (formData.skills) {
                 let formSkills = Object.keys(formData.skills)
                 for (let i = 0; i < formSkills.length; i++) {
-                    let modSkill = (Object.values(caster.data.data.skills)).find(element => element.name === formSkills[i])
+                    let modSkill = (Object.values(actor.data.data.skills)).find(element => element.name === formSkills[i])
                     let modValue;
                     if (formData.skills[formSkills[i]] !== modSkill.value) {
                         modValue = formData.skills[formSkills[i]] - modSkill.value
                     }
-                    await caster.addCustomModifier(modSkill.name, "WSForm Value", modValue, "untyped");
+                    await actor.addCustomModifier(modSkill.name, "WSForm Value", modValue, "untyped");
                 }
             }
 
@@ -856,54 +854,54 @@ async function transform(html) {
             } else if (formData.name == "Earth" || formData.name == "Water") {
                 bypassTo = "athElemental"
             }
-            await skillBonus(levelAttributes.skills, caster.data.data.skills);
+            await skillBonus(levelAttributes.skills, actor.data.data.skills);
 
             // if Form AC bonus is greater than base AC, add Form Bonus to AC value
-            formValue = levelAttributes.ac + caster.data.data.details.level.value;
-            origValue = caster.data.data.attributes.ac.value;
+            formValue = levelAttributes.ac + actor.data.data.details.level.value;
+            origValue = actor.data.data.attributes.ac.value;
             if (formValue > origValue) {
                 const formACBonus = (formValue - origValue);
-                await caster.addCustomModifier("ac", "WSForm Bonus AC", formACBonus, "untyped");
+                await actor.addCustomModifier("ac", "WSForm Bonus AC", formACBonus, "untyped");
             }
 
             // if Form Attack Mod is less than Unarmed Attack mod of the actor, add a +2 to Unarmed
             // Attack mod and let the form attacks use that instead
             formValue = levelAttributes.mod
-            if ((caster.data.data.actions).find(action => action.name === "Handwraps of Mighty Blows")) {
-                origValue = (caster.data.data.actions).find(action => action.name === "Handwraps of Mighty Blows").totalModifier
+            if ((actor.data.data.actions).find(action => action.name === "Handwraps of Mighty Blows")) {
+                origValue = (actor.data.data.actions).find(action => action.name === "Handwraps of Mighty Blows").totalModifier
             } else {
-                origValue = ((caster.data.data.actions).find(action => action.name === "Fist")).totalModifier
+                origValue = ((actor.data.data.actions).find(action => action.name === "Fist")).totalModifier
             }
             if (formValue < (origValue + 2)) {
-                await caster.addCustomModifier("attack", "WSForm Bonus", 2, "status");
+                await actor.addCustomModifier("attack", "WSForm Bonus", 2, "status");
                 levelAttributes.ownMod = (origValue + 2);
-                await caster.setFlag("world", "ws_levelAttributes", levelAttributes)
+                await actor.setFlag("world", "ws_levelAttributes", levelAttributes)
             }
 
             // rememeber original senses for reset
-            origSenses = JSON.parse(JSON.stringify(caster.data.data.traits.senses));
-            await caster.setFlag("world", "ws_origSenses", origSenses);
+            origSenses = JSON.parse(JSON.stringify(actor.data.data.traits.senses));
+            await actor.setFlag("world", "ws_origSenses", origSenses);
             await setSenses();
 
             // remember original speed for reset
-            origSpeeds = JSON.parse(JSON.stringify(caster.data.data.attributes.speed));
-            await caster.setFlag("world", "ws_origSpeeds", origSpeeds);
+            origSpeeds = JSON.parse(JSON.stringify(actor.data.data.attributes.speed));
+            await actor.setFlag("world", "ws_origSpeeds", origSpeeds);
             await changeSpeeds();
 
             // add temp HP, if Form Temp HP value is greater than already extant temp HP value
             if (!tempHP || (tempHP < levelAttributes.temphp)) {
-                await caster.setFlag("world", "ws_tempHPChanged", tempHP)
+                await actor.setFlag("world", "ws_tempHPChanged", tempHP)
                 let newTempHP = levelAttributes.temphp
-                await caster.update({ "data.attributes.hp.temp": newTempHP });
+                await actor.update({ "data.attributes.hp.temp": newTempHP });
             };
 
             // Change image. Make sure your images are labeled with the form name (w/ correct capitalization)
             // at the end of your token name. Comment out the next three if you don't want the image to change
-            let origImg = tok.data.img;
-            await caster.setFlag("world", "ws_origImg", origImg)
+            let origImg = token.data.img;
+            await actor.setFlag("world", "ws_origImg", origImg)
             let img = origImg.slice(0, -4) + (formData.name) + ".png";
-            await tok.update({ img });
-            await caster.update({ "token.img" : img})
+            await token.update({ img });
+            await actor.update({ "token.img" : img})
 
             // Change size
             if (formData.size) {
@@ -922,7 +920,7 @@ async function transform(html) {
 // INIT
 // --------------------------------------------------------------------------
 
-if (caster.data.type !== "character") {
+if (actor.data.type !== "character") {
     ui.notifications.error("Please select a player character token."); 
     return; 
 }
@@ -938,7 +936,7 @@ formGroups.forEach(group => featNames.push(group.group))
 
 // From all the actor's feats, find the ones that match the names of the Wild Shape feats and put them in the wsFeats array - this will determine what forms they have access to in the dropdown.
 let wsFeats = [];
-const allFeats = (caster.data.items).filter(item => item.type === "feat") 
+const allFeats = (actor.data.items).filter(item => item.type === "feat") 
 for (let i=0; i<allFeats.length; i++) {
     let findFeat = featNames.filter(name => name.includes(allFeats[i].name))
     wsFeats = wsFeats.concat(findFeat);
