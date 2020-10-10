@@ -1,6 +1,6 @@
 # Pathfinder 2E Shapeshifting Macros
 
-## NOTE: I strongly recommend returning to your normal shape at the end of a game session, just in case a Pathfinder 2E Game System update occurs which changes the data structures the macros use.
+## NOTE: I strongly recommend returning to your normal shape at the end of a game session, just in case a Pathfinder 2E Game System update occurs that might change the data structures the macros use.
 
 
 
