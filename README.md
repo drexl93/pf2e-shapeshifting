@@ -4,6 +4,9 @@
 
 These three macros are intended to simplify the lives of any Druids who need to Wild Shape, or any casters using the plethora of Form Spells available. They require The Furnace to be enabled, and the player using them must have at least Trusted permissions:
 
+### Installation
+Copy the following link into your Manifest URL bar in the Module Installation window of Foundry VTT: https://raw.githubusercontent.com/drexl93/pf2e-shapeshifting/master/module.json
+
 ## Wild Shape Macro
 * Full support for all available forms accessible through Wild Shape
 * Pairs with the attack macro to roll with the correct level-scaled attack and damage bonuses
