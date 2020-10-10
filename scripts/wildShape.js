@@ -522,6 +522,20 @@ let heightenedLevel = Math.ceil((actor.data.data.details.level.value) / 2);
 // DECLARE FUNCTIONS
 // -------------------------------------------------------------------
 
+function runDialog(dialog, height, width) {
+    if (height) {
+        dialog.options.height = height;
+        dialog.position.height = height;
+    }
+    if (width) {
+        dialog.options.width = width;
+        dialog.position.width = width;
+    }
+    dialog.render(true);
+}   
+
+// -------------------------------------------------------------------
+
 async function removeCustomMods() {
     let customMods = Object.keys(actor.data.data.customModifiers)
     for (let element of customMods) {
@@ -757,11 +771,7 @@ async function dragonResistance() {
             },
         }
     })
-    d2.options.width = 210
-    d2.position.width = 210
-    d2.options.height = 135
-    d2.position.height = 135
-    d2.render(true);
+    runDialog(d2, 135, 210);
 }
 
 // -------------------------------------------------------------------
@@ -991,6 +1001,5 @@ let d = new Dialog({
       },
     },
 })
-d.options.width = 300
-d.position.width = 300
-d.render(true);
+runDialog(d, null, 300);
+
