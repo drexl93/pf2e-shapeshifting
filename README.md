@@ -46,10 +46,6 @@ Copy the following link into your Manifest URL bar in the Module Installation wi
 
 ---
 
-### Future Plans
-* Look into ways of representing special properties of creatures (such as the White Dragon's ability to climb only ice, or the Flytrap's ability to spend an action after a hit to Grab the target)
-* For Wild Shape, check whether Focus Point is available and deduct one per usage
-
 ### Endnotes
 I welcome any and all feedback you have about these macros!
 
