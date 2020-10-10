@@ -51,6 +51,4 @@ I welcome any and all feedback you have about these macros!
 
 I only started learning javascript over the past few months, and entirely so that I could tinker around with Foundry. An experienced developer would likely have a heart-attack seeing my code, for which I apologize.
 
-I am considering making this into a module, once I figure out how that would work.
-
 It will be an ongoing project to streamline the code and make it more efficient. This is my first complex macro, and it kept getting bigger the more I worked on it, so I apologize for both its size and any unforseen bugs. I will do my best to help you work through any problems you find, but please note: **I always recommend backing up your characters regularly, and especially before using macros like these. I am not responsible for any loss or alteration of character data.**
