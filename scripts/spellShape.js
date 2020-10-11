@@ -9,7 +9,6 @@ let formGroups = [ // contains Attack info for the forms
         forms: [
             {
                 name: "Pest",
-                attacks: [],
                 weaknesses: {piercing: 5, bludgeoning: 5, slashing: 5},
                 speed: {value: 10, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision",label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
@@ -115,7 +114,7 @@ let formGroups = [ // contains Attack info for the forms
             },
             {
                 name: "Spider", 
-                attacks: [{name: "Fangs", dsize: 6, dnum: 1, type: "Piercing plus 1d4 persistent Poison"}, {name: "Web", dsize: 1, dnum: 0, type: "None"}], 
+                attacks: [{name: "Fangs", dsize: 6, dnum: 1, type: "Piercing plus 1d4 persistent Poison"}, {name: "Web", dsize: 1, dnum: 0, type: "None", addEffect: "Entangles the target for one round"}], 
                 speed: {value: 25, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "25", exceptions: ""}]},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
@@ -224,7 +223,7 @@ let formGroups = [ // contains Attack info for the forms
             },
             {
                 name: "Water", 
-                attacks: [{name: "Wave", dsize: 12, dnum: 1, type: "Bludgeoning"}], 
+                attacks: [{name: "Wave", dsize: 12, dnum: 1, type: "Bludgeoning", addEffect: "You can spend an action immediately after a hit to push the target 5 feet with the effects of a successful Shove"}], 
                 resistances: {fire: 5}, 
                 speed: {value: 20, special: "", otherSpeeds: [{type: "swim", label: "Swim", value: "60", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
@@ -245,7 +244,7 @@ let formGroups = [ // contains Attack info for the forms
             }, 
             {
                 name: "Flytrap", 
-                attacks: [{name: "Leaf", dsize: 8, dnum: 2, type: "Piercing"}], 
+                attacks: [{name: "Leaf", dsize: 8, dnum: 2, type: "Piercing", addEffect: "You can spend an action after a hit to Grab the target"}], 
                 resistances: {poison: 10, acid: 10}, 
                 speed: {value: 15, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}],
@@ -414,7 +413,7 @@ let formGroups = [ // contains Attack info for the forms
             },
             {
                 name: "Alseta", 
-                attacks: [{name: "Dagger", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Portal Toss", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3}],  
+                attacks: [{name: "Dagger", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Portal Toss", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3, addEffect: "The portal toss Strike causes the creature to fall through a series of portals before landing in the same spot and taking damage."}],  
                 speed: {value: 40, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
@@ -516,7 +515,7 @@ let formGroups = [ // contains Attack info for the forms
             },
             {
                 name: "Hei Feng", 
-                attacks: [{name: "Drunken Sword", dsize: 6, dnum: 4, type: "Slashing plus 1d6 Electricity splash", bonus: 6}, {name: "Storm Surge", dsize: 6, dnum: 4, type: "Bludgeoning plus 1d6 Electricity splash", bonus: 3}],  
+                attacks: [{name: "Drunken Sword", dsize: 6, dnum: 4, type: "Slashing plus 1d6 Electricity splash", bonus: 6}, {name: "Storm Surge", dsize: 6, dnum: 4, type: "Bludgeoning plus 1d6 Electricity splash", bonus: 3, addEffect: "The caster is immune to this splash damage"}],  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
@@ -777,6 +776,7 @@ if (!token) {
     ui.notifications.error("Please select a token"); 
     return; 
 }
+
 let tempHP = actor.data.data.attributes.hp.temp;
 if (!tempHP) {
     tempHP = 0;

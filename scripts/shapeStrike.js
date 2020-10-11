@@ -2,7 +2,6 @@
 // DECLARE VARIABLES
 //
 
-const tok = canvas.tokens.controlled[0].actor;
 let bonus;
 
 // Dialog Variables
@@ -10,17 +9,16 @@ let content = "";
 
 let primeDice; // used to store information for primary damage roll
 let wsAttack; // used to store information for the attack roll
-let attackName; // used to check if attack is agile; to link primary damage rolls with secondary damage rolls; to flavour attack/damage rolls
+let selectedStrike; // used to check if attack is agile; to link primary damage rolls with secondary damage rolls; to flavour attack/damage rolls
 let plusDamageData = []; // array used to store all of the secondary damage rolls and their respective types
-let selectedStrike;
 let mod;
-let formData = tok.getFlag("world", "ws_formData");
+let formData = actor.getFlag("world", "ws_formData");
 if (!formData) {
-    formData = tok.getFlag("world", "ss_formData");
+    formData = actor.getFlag("world", "ss_formData");
 }
-let levelAttributes = tok.getFlag("world", "ws_levelAttributes")
+let levelAttributes = actor.getFlag("world", "ws_levelAttributes")
 if (!levelAttributes) {
-    levelAttributes = tok.getFlag("world", "ss_levelAttributes");
+    levelAttributes = actor.getFlag("world", "ss_levelAttributes");
 }
 
 
@@ -29,42 +27,64 @@ if (!levelAttributes) {
 //
 
 async function roll(){
-    await wsAttack.toMessage({ flavor : `${attackName} Attack`});
+    let flavor = `<div><span style="padding: 5px 0">${selectedStrike}</span> Attack</div>`
+    if (formData.attacks[selectedStrike].addEffect) {
+        flavor += `<div style="line-height: normal; padding-bottom: 5px"><span style="font-style: italic; line-height: 5px">Additional Effect: </span><span>${formData.attacks[selectedStrike].addEffect}</div>`
+    }
+    if (formData.attacks[selectedStrike].traits) {
+        flavor += `<div class="tags">`
+        for (let trait of formData.attacks[selectedStrike].traits) {
+            flavor += `<span class="tag tag_secondary">${trait}</span>`
+        }
+        flavor += `</div>`
+    }
+
+    let messageData = {
+        user: game.user._id,
+        speaker: {
+            alias: actor.name
+        },
+        flavor,
+    }
+    await wsAttack.toMessage(messageData);
 
     // if the level of the spell indicates the damage dice should be doubled, set up the dice to do so
     if (levelAttributes.double) {
-        primeDice = `${selectedStrike.dnum*2}d${selectedStrike.dsize}`
+        primeDice = `${formData.attacks[selectedStrike].dnum*2}d${formData.attacks[selectedStrike].dsize}`
     } else {
-        primeDice = `${selectedStrike.dnum}d${selectedStrike.dsize}`;
+        primeDice = `${formData.attacks[selectedStrike].dnum}d${formData.attacks[selectedStrike].dsize}`;
     };
 
     // if the attack has additional damage dice (like the snake's poison bite) set up those dice. Can support multiple additional damage dice
-    if (formData.plusattacks) {
-        for (let element of formData.plusattacks) {
-            if (element.name === attackName) { // if the name of the additional damage attack corresponds to the attack being rolled, add its info to the additional damage array
-                let plusDamageDice;
-                if (levelAttributes.double) { // double if indicated
-                    plusDamageDice = `${element.dnum*2}d${element.dsize}`
-                } else {
-                    plusDamageDice = `${element.dnum}d${element.dsize}`
-                }
-                plusDamageData.push({
-                    dice: plusDamageDice, 
-                    type: element.type,
-                    bonus: element.bonus // in case the additional damage has a flat bonus to it
-                })
-            }
+    if (formData.plusattacks?.[selectedStrike]) {
+        let plusDamageDice;
+        if (levelAttributes.double) { // double if indicated
+            plusDamageDice = `${formData.plusattacks[selectedStrike].dnum*2}d${formData.plusattacks[selectedStrike].dsize}`
+        } else {
+            plusDamageDice = `${formData.plusattacks[selectedStrike].dnum}d${formData.plusattacks[selectedStrike].dsize}`
         }
+        plusDamageData.push({
+            dice: plusDamageDice, 
+            type: formData.plusattacks[selectedStrike].type,
+            bonus: formData.plusattacks[selectedStrike].bonus // in case the additional damage has a flat bonus to it
+        })
     }
 
     let wsDamage;
     // If there is a form specific bonus to damage (as in Monstrosity Form), use that. Otherwise, use the standard damage bonus from level scaling
-    if ((selectedStrike.bonus) || (selectedStrike.bonus === 0)) { // Second statement account for attacks that have an attack roll but no damage (the Spider's Web Attack)
-        wsDamage = new Roll(primeDice + "+ @bonus", {bonus: selectedStrike.bonus});
+    if ((formData.attacks[selectedStrike].bonus) || (formData.attacks[selectedStrike].bonus === 0)) { // Second statement account for attacks that have an attack roll but no damage (the Spider's Web Attack)
+        wsDamage = new Roll(primeDice + "+ @bonus", {bonus: formData.attacks[selectedStrike].bonus});
     } else {
         wsDamage = new Roll(primeDice + "+ @bonus", {bonus: levelAttributes.damage});
     }
-    wsDamage.toMessage({ flavor : `${attackName} Damage: ${selectedStrike.type}` });
+    messageData = {
+        user: game.user._id,
+        speaker: {
+            alias: actor.name
+        },
+        flavor: `${selectedStrike} Damage: ${formData.attacks[selectedStrike].type}`
+    }
+    wsDamage.toMessage(messageData);
 
     // If there is any additional damage to be applied to this attack, roll each of the additional damage dice, applying static bonuses to them if necessary.
     if (plusDamageData.length !== 0) {
@@ -75,7 +95,14 @@ async function roll(){
             } else {
                 wsDamagePlus = new Roll(plusDamage.dice);
             }
-            wsDamagePlus.toMessage({ flavor : `${attackName} Damage: ${plusDamage.type}` });
+            messageData = {
+                user: game.user._id,
+                speaker: {
+                    alias: actor.name
+                },
+                flavor: `${selectedStrike} Damage: ${plusDamage.type}`
+            }
+            wsDamagePlus.toMessage(messageData);
         })
                 
     };
@@ -84,13 +111,14 @@ async function roll(){
 // --------------------------------------------------------------------------
 // CODE
 //
-// if no formData is loaded on the token, they aren't transformed
+// if no formData is loaded on the actor, they aren't transformed
 if (!formData) {
     ui.notifications.error("You are not currently transformed."); 
     return;
 };
 
-if (!(formData.attacks.length > 0)) {
+// If there are no attack details for the form (as in Pest Form), it cannot attack
+if (!formData.attacks) {
     ui.notifications.error("This form cannot attack"); 
     return;
 }
@@ -105,8 +133,14 @@ if (levelAttributes.ownMod) {
 // Populate dropdown with attacks drawn from formData
 content += `<div><label for="attack">Choose your attack</label>
 <select name="attack" id="attack">`
-for (let i=0; i<formData.attacks.length; i++) {
-    content += `<option value="${i}">${formData.attacks[i].name}</option> `
+let formAttacks = Object.keys(formData.attacks)
+for (let i=0; i<formAttacks.length; i++) {
+    content += `<option value="${formAttacks[i]}">${formAttacks[i]}`
+    if (formData.attacks[formAttacks[i]].traits) {
+        let traitString = formData.attacks[formAttacks[i]].traits.toString();
+        let spacedTraitString = traitString.replace(/,/g, ", ")
+        content += ` (${spacedTraitString})</option>`
+    }
 };
 
 content += `</select></div>
@@ -122,8 +156,7 @@ new Dialog({
             label: "First",
             callback: (html) => { 
                 // selectedStrike is the attack picked in the dropdown menu, matched to its details in the embedded formData array
-                selectedStrike = formData.attacks[(html.find("#attack")[0].value)]; 
-                attackName = selectedStrike.name;
+                selectedStrike = html.find("#attack")[0].value; 
                 wsAttack = new Roll("1d20 + @mod", {mod: mod});
                 roll();
             },
@@ -132,10 +165,8 @@ new Dialog({
             icon: "<i class='far fa-caret-square-right'></i>",
             label: "Second",
             callback: (html) => {
-                selectedStrike = formData.attacks[(html.find("#attack")[0].value)]; 
-                attackName = selectedStrike.name;
-                let isAgile = (attackName.toLowerCase()).search("agile")
-                if (isAgile !== -1) {
+                selectedStrike = html.find("#attack")[0].value; 
+                if (formData.attacks[selectedStrike].traits?.includes("Agile")) {
                     wsAttack = new Roll("1d20 + @mod + @pen", {mod: mod, pen: -4});
                 } else {
                     wsAttack = new Roll("1d20 + @mod + @pen", {mod: mod, pen: -5});
@@ -147,10 +178,8 @@ new Dialog({
             icon: "<i class='fas fa-caret-right'></i>",
             label: "Third+",
             callback: (html) => {
-                selectedStrike = formData.attacks[(html.find("#attack")[0].value)];
-                attackName = selectedStrike.name;
-                let isAgile = (attackName.toLowerCase()).search("agile")
-                if (isAgile !== -1) {
+                selectedStrike = html.find("#attack")[0].value; 
+                if (formData.attacks[selectedStrike].traits?.includes("Agile")) {
                     wsAttack = new Roll("1d20 + @mod + @pen", {mod: mod, pen: -8});
                 } else {
                     wsAttack = new Roll("1d20 + @mod + @pen", {mod: mod, pen: -10});
