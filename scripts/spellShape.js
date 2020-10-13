@@ -1077,6 +1077,20 @@ let levelAttributes;
 // DECLARE FUNCTIONS
 //--------------------------------------------------------------------
 
+function runDialog(dialog, height, width) {
+    if (height) {
+        dialog.options.height = height;
+        dialog.position.height = height;
+    }
+    if (width) {
+        dialog.options.width = width;
+        dialog.position.width = width;
+    }
+    dialog.render(true);
+}   
+
+// -------------------------------------------------------------------
+
 async function removeCustomMods() {
     let customMods = Object.keys(actor.data.data.customModifiers)
     for (let element of customMods) {
@@ -1295,8 +1309,8 @@ async function chooseSpell(spellName, className) {
         content: content2,
         buttons: {
             select: {
-                icon: "<i class='fas fa-check'></i>",
-                label: "Select",
+                icon: "<i class='fas fa-hand-sparkles'></i>",
+                label: "Transform",
                 callback: async (html) => {
                     let actualForm = html.find("#forms")[0].value;
                     let castingLevel = parseInt(html.find("#level")[0].value); 
@@ -1306,9 +1320,7 @@ async function chooseSpell(spellName, className) {
             }
         }
     })
-    d2.options.width = 300
-    d2.position.width = 300
-    d2.render(true);
+    runDialog(d2, null, 300)
 }
 
 // ----------------------------> Main Transform Function Part 2
@@ -1420,7 +1432,7 @@ let d = new Dialog({
     content: content,
     buttons: {
         spell: {
-            icon: "<i class='fas fa-magic'></i>",
+            icon: "<i class='fas fa-arrow-right'></i>",
             label: "Next",
             callback: (html) => {
                 if (formData) {
@@ -1440,6 +1452,4 @@ let d = new Dialog({
         }
     }
 })
-d.options.width = 250
-d.position.width = 250
-d.render(true);
+runDialog(d, null, 250)
