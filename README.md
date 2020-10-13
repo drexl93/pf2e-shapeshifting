@@ -46,7 +46,8 @@ Copy the following link into your Manifest URL bar in the Module Installation wi
 
 ### Changelog v. 6.0.0:
 * Improved dialog UI
-* All attacks now show their relevant traits and additional effects in the roll
+* All attacks now show their relevant traits and additional effects in the roll:
+![Traits](https://i.ibb.co/jRkf1MJ/v6-trait-pic.png)
 
 ---
 
