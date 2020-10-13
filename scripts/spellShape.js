@@ -9,69 +9,93 @@ let formGroups = [ // contains Attack info for the forms
         forms: [
             {
                 name: "Pest",
-                weaknesses: {piercing: 5, bludgeoning: 5, slashing: 5},
+                weaknesses: {piercing: "5", bludgeoning: "5", slashing: "5"},
                 speed: {value: 10, special: "", otherSpeeds: []},
-                senses: [{type: "lowLightVision",label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
+                senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
                 skills: {athletics: -4},
             }
         ]
     },
     {
         group: "Animal Form", // Doubles as the Feat Name and the Heading under which the form options are displayed in the selection menu
-        class: "wildShape", // Used to link to the correct Scaling Attributes group
+        class: "animalForm", // Used to link to the correct Scaling Attributes group
         forms: [
             {
                 name: "Ape", 
-                attacks: [{name: "Fist", dsize: 6, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Fist": {dsize: 6, dnum: 2, type: "Bludgeoning"}
+                }, 
                 speed: {value: 30, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "20", exceptions: ""}]}, 
                 senses: [{type: "lowLightVision",label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}]
             }, 
             {
                 name: "Bear", 
-                attacks: [{name: "Jaws", dsize: 8, dnum: 2, type: "Piercing"},{name: "Claw (agile)", dsize: 8, dnum: 1, type: "Slashing"}],
+                attacks: {
+                    "Jaws": {dsize: 8, dnum: 2, type: "Piercing"},
+                    "Claw": {dsize: 8, dnum: 1, type: "Slashing", traits: ["Agile"]}
+                },
                 speed: {value: 30, special: "", otherSpeeds: []}, 
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}]
             }, 
             {
                 name: "Bull", 
-                attacks: [{name: "Horn", dsize: 8, dnum: 2, type: "Piercing"}], 
+                attacks: {
+                    "Horn": {dsize: 8, dnum: 2, type: "Piercing"}
+                }, 
                 speed: {value: 30, special: "", otherSpeeds: []}, 
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}]
             },
             {
                 name: "Canine", 
-                attacks: [{name: "Jaws", dsize: 8, dnum: 2, type: "Piercing"}],
+                attacks: {
+                    "Jaws": {dsize: 8, dnum: 2, type: "Piercing"}
+                },
                 speed: {value: 40, special: "", otherSpeeds: []}, 
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}]
             },
             {
                 name: "Cat", 
-                attacks: [{name: "Jaws", dsize: 6, dnum: 2, type: "Piercing"}, {name: "Claw (agile)", dsize: 10, dnum: 1, type: "Slashing"}], 
+                attacks: {
+                    "Jaws": {dsize: 6, dnum: 2, type: "Piercing"}, 
+                    "Claw": {dsize: 10, dnum: 1, type: "Slashing", traits: ["Agile"]}
+                }, 
                 speed: {value: 40, special: "", otherSpeeds: []}, 
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}]
             },
             {
                 name: "Deer", 
-                attacks: [{name: "Antler", dsize: 6, dnum: 2, type: "Piercing"}], 
+                attacks: {
+                    "Antler": {dsize: 6, dnum: 2, type: "Piercing"}
+                }, 
                 speed: {value: 50, special: "", otherSpeeds: []}, 
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}]
             },
             {
                 name: "Frog", 
-                attacks: [{name: "Jaws", dsize: 6, dnum: 2, type: "Bludgeoning"}, {name: "Tongue", dsize: 4, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Jaws": {dsize: 6, dnum: 2, type: "Bludgeoning"},
+                    "Tongue": {dsize: 4, dnum: 2, type: "Bludgeoning", traits: ["Reach 15 feet"]}
+                }, 
                 speed: {value: 25, special: "", otherSpeeds: [{type: "swim", label: "Swim", value: "25", exceptions: ""}]}, 
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}]
             },
             {
                 name: "Shark", 
-                attacks: [{name: "Jaws", dsize: 8, dnum: 2, type: "Piercing"}], 
+                attacks: {
+                    "Jaws": {dsize: 8, dnum: 2, type: "Piercing"}
+                }, 
                 speed: {value: 0, special: "", otherSpeeds: [{type: "swim", label: "Swim", value: "35", exceptions: ""}]}, 
-                senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}]
+                senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
+                details: "Breathe underwater but not in air."
             },
             {
                 name: "Snake", 
-                attacks: [{name: "Fangs", dsize: 4, dnum: 2, type: "Piercing"}], 
-                plusattacks: [{name: "Fangs", dsize: 6, dnum: 1, type: "Poison"}], // plusattacks add additional damage to the same-name primary attack. Can support multiple different instances of additional damage.
+                attacks: {
+                    "Fangs": {dsize: 4, dnum: 2, type: "Piercing"}
+                }, 
+                plusattacks: {
+                    "Fangs": {dsize: 6, dnum: 1, type: "Poison"}
+                }, // plusattacks add additional damage to the same-name primary attack. Can support multiple different instances of additional damage for the same primary attack.
                 speed: {value: 20, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "20", exceptions: ""}, {type: "swim", label: "Swim", value: "20", exceptions: ""}]}, 
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}]
             } 
@@ -80,142 +104,189 @@ let formGroups = [ // contains Attack info for the forms
     
     {
         group: "Insect Form",
-        class: "insectShape",
+        class: "insectForm",
         forms: [
             {
                 name: "Ant", 
-                attacks: [{name: "Mandibles", dsize: 6, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Mandibles": {dsize: 6, dnum: 2, type: "Bludgeoning"}
+                }, 
                 speed: {value: 30, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "30", exceptions: ""}]},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}],
             },
             {
                 name: "Beetle",
-                attacks: [{name: "Mandibles", dsize: 10, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Mandibles": {dsize: 10, dnum: 2, type: "Bludgeoning"}
+                }, 
                 speed: {value: 25, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}],
             }, 
             {
                 name: "Centipede", 
-                attacks: [{name: "Mandibles", dsize: 8, dnum: 1, type: "Piercing plus 1d4 persistent Poison"}], 
+                attacks: {
+                    "Mandibles": {dsize: 8, dnum: 1, type: "Piercing plus 1d4 persistent Poison"}
+                }, 
                 speed: {value: 25, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "25", exceptions: ""}]},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Mantis", 
-                attacks: [{name: "Foreleg", dsize: 8, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Foreleg": {dsize: 8, dnum: 2, type: "Bludgeoning"}
+                }, 
                 speed: {value: 40, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Scorpion", 
-                attacks: [{name: "Stinger", dsize: 8, dnum: 1, type: "Piercing plus 1d4 persistent Poison"}, {name: "Pincer (agile)", dsize: 6, dnum: 1, type: "Bludgeoning"}], 
+                attacks: {
+                    "Stinger": {dsize: 8, dnum: 1, type: "Piercing plus 1d4 persistent Poison"},
+                    "Pincer": {dsize: 6, dnum: 1, type: "Bludgeoning", traits: ["Agile"]}
+                }, 
                 speed: {value: 40, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "tremorsense", label: "Imprecise Tremorsense", value: "60", exceptions: ""}],
             },
             {
                 name: "Spider", 
-                attacks: [{name: "Fangs", dsize: 6, dnum: 1, type: "Piercing plus 1d4 persistent Poison"}, {name: "Web", dsize: 1, dnum: 0, type: "None", addEffect: "Entangles the target for one round"}], 
+                attacks: {
+                    "Fangs": {dsize: 6, dnum: 1, type: "Piercing plus 1d4 persistent Poison"},
+                    "Web": {type: "None", addEffect: "No damage. Entangles the target for one round", traits: ["Range Increment 20 feet"]}
+                }, 
                 speed: {value: 25, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "25", exceptions: ""}]},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
         ]
     }, 
-
+    
     { 
         group: "Aerial Form",
-        class: "soaringShape",
+        class: "aerialForm",
         forms: [
             {
                 name: "Bat", 
-                attacks: [{name: "Fangs", dsize: 8, dnum: 2, type: "Piercing"}, {name: "Wing (agile)", dsize: 6, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Fangs": {dsize: 8, dnum: 2, type: "Piercing"},
+                    "Wing": {dsize: 6, dnum: 2, type: "Bludgeoning", traits: ["Agile"]}
+                }, 
                 speed: {value: 20, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "30", exceptions: ""}]},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "echolocation", label: "Precise Echolocation", value: "40", exceptions: ""}],
             }, 
             {
                 name: "Bird", 
-                attacks: [{name: "Beak", dsize: 8, dnum: 2, type: "Piercing"}, {name: "Talon (agile)", dsize: 10, dnum: 1, type: "Slashing"}], 
+                attacks: {
+                    "Beak": {dsize: 8, dnum: 2, type: "Piercing"},
+                    "Talon": {dsize: 10, dnum: 1, type: "Slashing", traits: ["Agile"]}
+                }, 
                 speed: {value: 10, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "50", exceptions: ""}]},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}],
             }, 
             {
                 name: "Pterosaur", 
-                attacks: [{name: "Beak", dsize: 6, dnum: 3, type: "Piercing"}], 
+                attacks: {
+                    "Beak": {dsize: 6, dnum: 3, type: "Piercing"}
+                }, 
                 extraFeat: "Ferocious Shape", 
                 speed: {value: 10, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "40", exceptions: ""}]},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
             },
             {
                 name: "Wasp", 
-                attacks: [{name: "Stinger", dsize: 8, dnum: 1, type: "Piercing plus 1d6 persistent Poison"}], 
+                attacks: {
+                    "Stinger": {dsize: 8, dnum: 1, type: "Piercing plus 1d6 persistent Poison"}
+                }, 
                 extraFeat: "Insect Shape", 
                 speed: {value: 20, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "40", exceptions: ""}]},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}],
             },
         ]
     },
-
+    
     { 
         group: "Dinosaur Form",
-        class: "ferociousShape",
+        class: "dinosaurForm",
         forms: [
             {
                 name: "Ankylosaurus", 
-                attacks: [{name: "Tail", dsize: 6, dnum: 2, type: "Bludgeoning"}, {name: "Foot", dsize: 6, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Tail": {dsize: 6, dnum: 2, type: "Bludgeoning", traits: ["Back Swing", "Reach 10 feet"]},
+                    "Foot": {dsize: 6, dnum: 2, type: "Bludgeoning"}
+                }, 
                 speed: {value: 25, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
             }, 
             {
                 name: "Brontosaurus", 
-                attacks: [{name: "Tail", dsize: 6, dnum: 2, type: "Bludgeoning"}, {name: "Foot", dsize: 8, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Tail": {dsize: 6, dnum: 2, type: "Bludgeoning", traits: ["Reach 10 feet"]},
+                    "Foot": {dsize: 8, dnum: 2, type: "Bludgeoning"}
+                }, 
                 speed: {value: 25, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
             }, 
             {
                 name: "Deinonychus", 
-                attacks: [{name: "Talon (agile)", dsize: 4, dnum: 2, type: "Piercing plus 1 persistent Bleed"}, {name: "Jaws", dsize: 10, dnum: 1, type: "Piercing"}], 
+                attacks: {
+                    "Talon": {dsize: 4, dnum: 2, type: "Piercing plus 1 persistent Bleed", traits: ["Agile"]},
+                    "Jaws": {dsize: 10, dnum: 1, type: "Piercing"}
+                }, 
                 speed: {value: 40, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
             },
             {
                 name: "Stegosaurus", 
-                attacks: [{name: "Tail", dsize: 8, dnum: 2, type: "Piercing"}], 
+                attacks: {
+                    "Tail": {dsize: 8, dnum: 2, type: "Piercing", traits: ["Back Swing", "Reach 10 feet"]}
+                }, 
                 speed: {value: 30, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
             },
             {
                 name: "Triceratops", 
-                attacks: [{name: "Horn", dsize: 8, dnum: 2, type: "Piercing plus 1d6 persistent Bleed on a Crit"}, {name: "Foot", dsize: 6, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Horn": {dsize: 8, dnum: 2, type: "Piercing", addEffect: "1d6 persistent Bleed on a Crit"}, 
+                    "Foot": {dsize: 6, dnum: 2, type: "Bludgeoning"}
+                }, 
                 speed: {value: 30, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
             },
             {
                 name: "Tyrannosaurus", 
-                attacks: [{name: "Jaws", dsize: 12, dnum: 1, type: "Piercing"}, {name: "Tail", dsize: 10, dnum: 1, type: "Bludgeoning"}], 
+                attacks: {
+                    "Jaws": {dsize: 12, dnum: 1, type: "Piercing", traits: ["Deadly", "Reach 10 feet"]}, 
+                    "Tail": {dsize: 10, dnum: 1, type: "Bludgeoning", traits: ["Reach 10 feet"]}
+                }, 
                 speed: {value: 30, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "30", exceptions: ""}],
             },
         ]
     },
-
+    
     { 
         group: "Elemental Form",
-        class: "elementalShape",
+        class: "elementalForm",
         forms: [
             {
                 name: "Air", 
-                attacks: [{name: "Gust", dsize: 4, dnum: 1, type: "Bludgeoning"}], 
+                attacks: {
+                    "Gust": {dsize: 4, dnum: 1, type: "Bludgeoning"}
+                }, 
                 speed: {value: 0, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "80", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             }, 
             {
                 name: "Earth", 
-                attacks: [{name: "Fist", dsize: 10, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Fist": {dsize: 10, dnum: 2, type: "Bludgeoning"}
+                }, 
                 speed: {value: 20, special: "", otherSpeeds: [{type: "burrow", label: "Burrow", value: "20", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             }, 
             {
                 name: "Fire", 
-                attacks: [{name: "Tendril", dsize: 8, dnum: 1, type: "Fire plus 1d4 persistent Fire"}], 
+                attacks: {
+                    "Tendril": {dsize: 8, dnum: 1, type: "Fire plus 1d4 persistent Fire"}
+                }, 
                 resistances: {fire: 10}, 
                 weaknesses: {cold: 5, water: 5}, 
                 speed: {value: 50, special: "", otherSpeeds: []},
@@ -223,122 +294,200 @@ let formGroups = [ // contains Attack info for the forms
             },
             {
                 name: "Water", 
-                attacks: [{name: "Wave", dsize: 12, dnum: 1, type: "Bludgeoning", addEffect: "You can spend an action immediately after a hit to push the target 5 feet with the effects of a successful Shove"}], 
+                attacks: {
+                    "Wave": {dsize: 12, dnum: 1, type: "Bludgeoning", addEffect: "You can spend an action immediately after a hit to push the target 5 feet with the effects of a successful Shove"}
+                }, 
                 resistances: {fire: 5}, 
                 speed: {value: 20, special: "", otherSpeeds: [{type: "swim", label: "Swim", value: "60", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
         ]
     },
-
+    
     { 
         group: "Plant Form",
-        class: "plantShape",
+        class: "plantForm",
         forms: [
             {
                 name: "Arboreal", 
-                attacks: [{name: "Branch", dsize: 10, dnum: 2, type: "Bludgeoning"}, {name: "Foot", dsize: 8, dnum: 2, type: "Bludgeoning"}], 
+                attacks: {
+                    "Branch": {dsize: 10, dnum: 2, type: "Bludgeoning", traits: ["Reach 15 feet"]},
+                    "Foot": {dsize: 8, dnum: 2, type: "Bludgeoning"}
+                }, 
                 resistances: {poison: 10}, 
                 speed: {value: 30, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}],
+                details: "You can speak in this form, but you still can't Cast a Spell or supply verbal components."
             }, 
             {
                 name: "Flytrap", 
-                attacks: [{name: "Leaf", dsize: 8, dnum: 2, type: "Piercing", addEffect: "You can spend an action after a hit to Grab the target"}], 
+                attacks: {
+                    "Leaf": {dsize: 8, dnum: 2, type: "Piercing", traits: ["Reach 10 feet"], addEffect: "You can spend an action after a hit to Grab the target"}
+                }, 
                 resistances: {poison: 10, acid: 10}, 
                 speed: {value: 15, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}],
             }, 
             {
                 name: "Shambler", 
-                attacks: [{name: "Vine", dsize: 8, dnum: 2, type: "Slashing"}], 
+                attacks: {
+                    "Vine": {dsize: 8, dnum: 2, type: "Slashing", traits: ["Reach 15 feet"]}
+                }, 
                 resistances: {poison: 10, electricity: 10}, 
                 speed: {value: 20, special: "", otherSpeeds: [{type: "swim", label: "Swim", value: "20", exceptions: ""}]},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}],
             },
         ]
     },
-
+    
     { 
         group: "Dragon Form",
-        class: "dragonShape",
+        class: "dragonForm",
         forms: [
             {
                 name: "Black", 
-                attacks: [{name: "Jaws", dsize: 12, dnum: 2, type: "Piercing"}, {name: "Claw (agile)", dsize: 10, dnum: 3, type: "Slashing"}, {name: "Tail", dsize: 10, dnum: 3, type: "Bludgeoning"}, {name: "Horns", dsize: 8, dnum: 3, type: "Piercing"}], 
-                plusattacks: [{name: "Jaws", dsize: 6, dnum: 2, type: "Acid"}], 
+                attacks: {
+                    "Jaws": {dsize: 12, dnum: 2, type: "Piercing"}, 
+                    "Claw": {dsize: 10, dnum: 3, type: "Slashing", traits: ["Agile"]}, 
+                    "Tail": {dsize: 10, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}, 
+                    "Horns": {dsize: 8, dnum: 3, type: "Piercing", traits: ["Reach 10 feet"]}
+                }, 
+                plusattacks: {
+                    "Jaws": {dsize: 6, dnum: 2, type: "Acid"}
+                }, 
                 resistances: {acid: 10}, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "100", exceptions: ""}, {type: "swim", label: "Swim", value: "60", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "60", exceptions: ""}],
             }, 
             {
                 name: "Blue", 
-                attacks: [{name: "Jaws", dsize: 10, dnum: 2, type: "Piercing"}, {name: "Claw (agile)", dsize: 10, dnum: 3, type: "Slashing"}, {name: "Tail", dsize: 10, dnum: 3, type: "Bludgeoning"}, {name: "Horns", dsize: 8, dnum: 3, type: "Piercing"}], 
-                plusattacks: [{name: "Jaws", dsize: 12, dnum: 1, type: "Electricity"}], 
+                attacks: {
+                    "Jaws": {dsize: 10, dnum: 2, type: "Piercing"}, 
+                    "Claw": {dsize: 10, dnum: 3, type: "Slashing", traits: ["Agile"]}, 
+                    "Tail": {dsize: 10, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}, 
+                    "Horns": {dsize: 8, dnum: 3, type: "Piercing", traits: ["Reach 10 feet"]}
+                }, 
+                plusattacks: {
+                    "Jaws": {dsize: 12, dnum: 1, type: "Electricity"}
+                }, 
                 resistances: {electricity: 10}, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "100", exceptions: ""}, {type: "burrow", label: "Burrow", value: "20", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "60", exceptions: ""}],
             }, 
             {
                 name: "Brass", 
-                attacks: [{name: "Jaws", dsize: 8, dnum: 3, type: "Piercing"}, {name: "Claw (agile)", dsize: 10, dnum: 3, type: "Slashing"}, {name: "Tail", dsize: 10, dnum: 3, type: "Bludgeoning"}, {name: "Spikes", dsize: 8, dnum: 3, type: "Piercing"}], 
-                plusattacks: [{name: "Jaws", dsize: 4, dnum: 2, type: "Fire"}], 
+                attacks: {
+                    "Jaws": {dsize: 8, dnum: 3, type: "Piercing"},
+                    "Claw": {dsize: 10, dnum: 3, type: "Slashing", traits: ["Agile"]},
+                    "Tail": {dsize: 10, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}, 
+                    "Spikes": {dsize: 8, dnum: 3, type: "Piercing", traits: ["Reach 10 feet"]}
+                }, 
+                plusattacks: {
+                    "Jaws": {dsize: 4, dnum: 2, type: "Fire"}, 
+                },
                 resistances: {fire: 10}, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "100", exceptions: ""}, {type: "burrow", label: "Burrow", value: "20", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "60", exceptions: ""}],
             },
             {
                 name: "Bronze", 
-                attacks: [{name: "Jaws", dsize: 10, dnum: 2, type: "Piercing"}, {name: "Claw (agile)", dsize: 10, dnum: 3, type: "Slashing"}, {name: "Tail", dsize: 10, dnum: 3, type: "Bludgeoning"}, {name: "Wing", dsize: 8, dnum: 3, type: "Slashing"}], 
-                plusattacks: [{name: "Jaws", dsize: 12, dnum: 1, type: "Electricity"}], 
+                attacks: {
+                    "Jaws": {dsize: 10, dnum: 2, type: "Piercing"},
+                    "Claw": {dsize: 10, dnum: 3, type: "Slashing", traits: ["Agile"]}, 
+                    "Tail": {dsize: 10, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}, 
+                    "Wing": {dsize: 8, dnum: 3, type: "Slashing", traits: ["Reach 10 feet"]}
+                }, 
+                plusattacks: {
+                    "Jaws": {dsize: 12, dnum: 1, type: "Electricity"}
+                }, 
                 resistances: {electricity: 10}, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "100", exceptions: ""}, {type: "swim", label: "Swim", value: "40", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "60", exceptions: ""}],
             },
             {
                 name: "Copper", 
-                attacks: [{name: "Jaws", dsize: 12, dnum: 2, type: "Piercing"}, {name: "Claw (agile)", dsize: 10, dnum: 3, type: "Slashing"}, {name: "Tail", dsize: 10, dnum: 3, type: "Bludgeoning"}, {name: "Wing", dsize: 8, dnum: 3, type: "Bludgeoning"}], 
-                plusattacks: [{name: "Jaws", dsize: 6, dnum: 2, type: "Acid"}], 
+                attacks: {
+                    "Jaws": {dsize: 12, dnum: 2, type: "Piercing"},
+                    "Claw": {dsize: 10, dnum: 3, type: "Slashing", traits: ["Agile"]}, 
+                    "Tail": {dsize: 10, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}, 
+                    "Wing": {dsize: 8, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}
+                }, 
+                plusattacks: {
+                    "Jaws": {dsize: 6, dnum: 2, type: "Acid"}
+                }, 
                 resistances: {acid: 10}, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "100", exceptions: ""}, {type: "climb", label: "Climb", value: "25", exceptions: "on stone only"}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "60", exceptions: ""}],
             },
             {
                 name: "Gold", 
-                attacks: [{name: "Jaws", dsize: 12, dnum: 2, type: "Piercing"}, {name: "Claw (agile)", dsize: 6, dnum: 4, type: "Slashing"}, {name: "Tail", dsize: 10, dnum: 3, type: "Bludgeoning"}, {name: "Horns", dsize: 8, dnum: 3, type: "Piercing"}], 
-                plusattacks: [{name: "Jaws", dsize: 6, dnum: 2, type: "Fire"}], 
+                attacks: {
+                    "Jaws": {dsize: 12, dnum: 2, type: "Piercing"}, 
+                    "Claw": {dsize: 6, dnum: 4, type: "Slashing", traits: ["Agile"]}, 
+                    "Tail": {dsize: 10, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}, 
+                    "Horns": {dsize: 8, dnum: 3, type: "Piercing", traits: ["Reach 10 feet"]}
+                }, 
+                plusattacks: {
+                    "Jaws": {dsize: 6, dnum: 2, type: "Fire"}
+                }, 
                 resistances: {fire: 10}, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "100", exceptions: ""}, {type: "swim", label: "Swim", value: "40", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "60", exceptions: ""}],
             },
             {
                 name: "Green", 
-                attacks: [{name: "Jaws", dsize: 12, dnum: 2, type: "Piercing"}, {name: "Claw (agile)", dsize: 10, dnum: 3, type: "Slashing"}, {name: "Tail", dsize: 10, dnum: 3, type: "Bludgeoning"}, {name: "Horns", dsize: 8, dnum: 3, type: "Piercing"}], 
-                plusattacks: [{name: "Jaws", dsize: 6, dnum: 2, type: "Poison"}], 
+                attacks: {
+                    "Jaws": {dsize: 12, dnum: 2, type: "Piercing"}, 
+                    "Claw": {dsize: 10, dnum: 3, type: "Slashing", traits: ["Agile"]}, 
+                    "Tail": {dsize: 10, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}, 
+                    "Horns": {dsize: 8, dnum: 3, type: "Piercing", traits: ["Reach 10 feet"]}
+                }, 
+                plusattacks: {
+                    "Jaws": {dsize: 6, dnum: 2, type: "Poison"}
+                }, 
                 resistances: {poison: 10}, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "100", exceptions: ""}, {type: "swim", label: "Swim", value: "40", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "60", exceptions: ""}],
             },
             {
                 name: "Red", 
-                attacks: [{name: "Jaws", dsize: 12, dnum: 2, type: "Piercing"}, {name: "Claw (agile)", dsize: 6, dnum: 4, type: "Slashing"}, {name: "Tail", dsize: 10, dnum: 3, type: "Bludgeoning"}, {name: "Wing", dsize: 8, dnum: 3, type: "Bludgeoning"}], 
-                plusattacks: [{name: "Jaws", dsize: 6, dnum: 2, type: "Fire"}], 
+                attacks: {
+                    "Jaws": {dsize: 12, dnum: 2, type: "Piercing"}, 
+                    "Claw": {dsize: 6, dnum: 4, type: "Slashing", traits: ["Agile"]}, 
+                    "Tail": {dsize: 10, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}, 
+                    "Wing": {dsize: 8, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}
+                }, 
+                plusattacks: {
+                    "Jaws": {dsize: 6, dnum: 2, type: "Fire"}
+                }, 
                 resistances: {fire: 10}, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "100", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "60", exceptions: ""}],
             },
             {
                 name: "Silver", 
-                attacks: [{name: "Jaws", dsize: 12, dnum: 2, type: "Piercing"}, {name: "Claw (agile)", dsize: 10, dnum: 3, type: "Slashing"}, {name: "Tail", dsize: 10, dnum: 3, type: "Bludgeoning"}], 
-                plusattacks: [{name: "Jaws", dsize: 6, dnum: 2, type: "Cold"}], 
+                attacks: {
+                    "Jaws": {dsize: 12, dnum: 2, type: "Piercing"}, 
+                    "Claw": {dsize: 10, dnum: 3, type: "Slashing", traits: ["Agile"]}, 
+                    "Tail": {dsize: 10, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}
+                }, 
+                plusattacks: {
+                    "Jaws": {dsize: 6, dnum: 2, type: "Cold"}
+                }, 
                 resistances: {cold: 10}, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "100", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "60", exceptions: ""}],
             }, 
             {
                 name: "White", 
-                attacks: [{name: "Jaws", dsize: 6, dnum: 3, type: "Piercing"}, {name: "Claw (agile)", dsize: 10, dnum: 3, type: "Slashing"}, {name: "Tail", dsize: 10, dnum: 3, type: "Bludgeoning"}], 
-                plusattacks: [{name: "Jaws", dsize: 6, dnum: 2, type: "Cold"}], 
+                attacks: {
+                    "Jaws": {dsize: 6, dnum: 3, type: "Piercing"}, 
+                    "Claw": {dsize: 10, dnum: 3, type: "Slashing", traits: ["Agile"]}, 
+                    "Tail": {dsize: 10, dnum: 3, type: "Bludgeoning", traits: ["Reach 10 feet"]}
+                }, 
+                plusattacks: {
+                    "Jaws": {dsize: 6, dnum: 2, type: "Cold"}
+                }, 
                 resistances: {cold: 10}, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "100", exceptions: ""}, {type: "climb", label: "Climb", value: "25", exceptions: "on ice only"}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}, {type: "scent", label: "Imprecise Scent", value: "60", exceptions: ""}],
@@ -348,25 +497,39 @@ let formGroups = [ // contains Attack info for the forms
 
     {
         group: "Monstrosity Form",
-        class: "monstrosityShape",
+        class: "monstrosityForm",
         forms: [ 
             {
                 name: "Phoenix", 
-                attacks: [{name: "Beak", dsize: 6, dnum: 2, type: "Piercing plus 2d4 persistent Fire", bonus: 12}, {name: "Talon (agile)", dsize: 8, dnum: 2, type: "Slashing", bonus: 12}], 
-                plusattacks: [{name: "Beak", dsize: 4, dnum: 2, type: "Fire"}], 
+                attacks: {
+                    "Beak": {dsize: 6, dnum: 2, type: "Piercing plus 2d4 persistent Fire", bonus: 12, traits: ["Reach 15 feet"]},
+                    "Talon": {dsize: 8, dnum: 2, type: "Slashing", bonus: 12, traits: ["Agile", "Reach 15 feet"]}
+                }, 
+                plusattacks: {
+                    "Beak": {dsize: 4, dnum: 2, type: "Fire"}
+                }, 
                 extraFeat: "Soaring Shape", 
                 speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "90", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+                details: "<strong>Shroud of Flame</strong> (aura, evocation, fire, primal) 20 feet. You gain an aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes 2d6 fire damage. A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura."
             }, 
             {
                 name: "Purple Worm", 
-                attacks: [{name: "Jaws", dsize: 12, dnum: 2, type: "Piercing", bonus: 20}, {name: "Stinger (agile)", dsize: 8, dnum: 2, type: "Piercing plus 2d6 persistent Poison", bonus: 15}, {name: "Body", dsize: 8, dnum: 2, type: "Bludgeoning", bonus: 20}], 
+                attacks: {
+                    "Jaws": {dsize: 12, dnum: 2, type: "Piercing", bonus: 20, traits: ["Reach 10 feet"]},
+                    "Stinger": {dsize: 8, dnum: 2, type: "Piercing plus 2d6 persistent Poison", bonus: 15, traits: ["Agile", "Reach 10 feet"]},
+                    "Body": {dsize: 8, dnum: 2, type: "Bludgeoning", bonus: 20, traits: ["Reach 10 feet"]}
+                }, 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "burrow", label: "Burrow", value: "30", exceptions: ""}, {type: "swim", label: "Swim", value: "20", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+                details: "<strong>Inexorable</strong> You automatically recover from the paralyzed, slowed, and stunned conditions at the end of each of your turns. You're also immune to being immobilized and ignore difficult terrain and greater difficult terrain."
             }, 
             {
                 name: "Sea Serpent", 
-                attacks: [{name: "Jaws", dsize: 12, dnum: 2, type: "Piercing", bonus: 20}, {name: "Tail", dsize: 8, dnum: 2, type: "Bludgeoning", bonus: 20}], 
+                attacks: {
+                    "Jaws": {dsize: 12, dnum: 2, type: "Piercing", bonus: 20, traits: ["Reach 15 feet"]},
+                    "Tail": {dsize: 8, dnum: 2, type: "Bludgeoning", bonus: 20, traits: ["Reach 25 feet"]}
+                }, 
                 speed: {value: 20, special: "", otherSpeeds: [{type: "swim", label: "Swim", value: "90", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             }, 
@@ -375,22 +538,31 @@ let formGroups = [ // contains Attack info for the forms
 
     {
         group: "Nature Incarnate",
-        class: "trueShapeshifter",
+        class: "natureIncarnate",
         forms: [ 
             {
                 name: "Green Man", 
-                attacks: [{name: "Vines", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 12}, {name: "Thorns", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}], 
+                attacks: {
+                    "Vines": {dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 12, traits: ["Reach 30 feet", "Versatile P"]},
+                    "Thorns": {dsize: 6, dnum: 6, type: "Piercing", bonus: 6, traits: ["Range 100 feet"]}
+                }, 
                 extraFeat: "Plant Shape", 
                 speed: {value: 40, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "40", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
-                size: 1
+                size: 1,
+                details: "<strong>Green Caress</strong> (aura, primal, transmutation) 60 feet. Enemies other than plants must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure)." 
             },
             {
                 name: "Kaiju", 
-                attacks: [{name: "Jaws", dsize: 10, dnum: 6, type: "Piercing", bonus: 10}, {name: "Claws (agile)", dsize: 8, dnum: 6, type: "Slashing", bonus: 8}, {name: "Foot (agile)", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 10}], 
+                attacks: {
+                    "Jaws": {dsize: 10, dnum: 6, type: "Piercing", bonus: 10, traits: ["Reach 30 feet"]},
+                    "Claws": {dsize: 8, dnum: 6, type: "Slashing", bonus: 8, traits: ["Agile", "Reach 30 feet"]},
+                    "Foot": {dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 10, traits: ["Agile", "Reach 15 feet"]}
+                }, 
                 resistances: {piercing: 5, bludgeoning: 5, slashing: 5}, 
                 speed: {value: 50, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
+                details: "<strong>Unstoppable</strong> You are immune to being immobilized and ignore difficult terrain and greater difficult terrain."
             }, 
         ]
     },
@@ -401,241 +573,352 @@ let formGroups = [ // contains Attack info for the forms
         forms: [ 
             {
                 name: "Abadar", 
-                attacks: [{name: "Crossbow", dsize: 10, dnum: 6, type: "Piercing", bonus: 3}],  
+                attacks: {
+                    "Crossbow": {dsize: 10, dnum: 6, type: "Piercing", bonus: 3, traits: ["Range Increment 120 feet", "Reload 1"]}
+                },  
                 speed: {value: 50, special: "", otherSpeeds: [{type: "burrow", label: "Burrow", value: "30", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Achaekek", 
-                attacks: [{name: "Mantis Claw", dsize: 8, dnum: 6, type: "Slashing", bonus: 6}, {name: "Spine Volley", dsize: 6, dnum: 6, type: "Piercing", bonus: 3}],  
+                attacks: {
+                    "Mantis Claw": {dsize: 8, dnum: 6, type: "Slashing", bonus: 6, traits: ["Agile", "Backswing", "Finesse", "Reach 15 feet", "Versatile P"]},
+                    "Spine Volley": {dsize: 6, dnum: 6, type: "Piercing", bonus: 3, traits: ["Range 60 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Alseta", 
-                attacks: [{name: "Dagger", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Portal Toss", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3, addEffect: "The portal toss Strike causes the creature to fall through a series of portals before landing in the same spot and taking damage."}],  
+                attacks: {
+                    "Dagger": {dsize: 6, dnum: 6, type: "Piercing", bonus: 6, traits: ["Agile", "Finesse", "Reach 15 feet", "Thrown 40 feet", "Versatile P"]},
+                    "Portal Toss": {dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3, traits: ["Range 60 feet"], addEffect: "The portal toss Strike causes the creature to fall through a series of portals before landing in the same spot and taking damage."}
+                },  
                 speed: {value: 40, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Arazni", 
-                attacks: [{name: "Rapier", dsize: 8, dnum: 6, type: "Piercing", bonus: 6}, {name: "Call Blood", dsize: 6, dnum: 6, type: "Persistent Bleed"}],  
+                attacks: {
+                    "Rapier": {dsize: 8, dnum: 6, type: "Piercing", bonus: 6, traits: ["Deadly 3d8", "Reach 15 feet"]},
+                    "Call Blood": {dsize: 6, dnum: 6, type: "Persistent Bleed", traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Asmodeus", 
-                attacks: [{name: "Mace", dsize: 10, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Hell Fire", dsize: 6, dnum: 6, type: "Fire", bonus: 3}],  
+                attacks: {
+                    "Mace": {dsize: 10, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Reach 15 feet"]},
+                    "Hell Fire": {dsize: 6, dnum: 6, type: "Fire", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Besmara", 
-                attacks: [{name: "Rapier", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Ship's Cannon", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3}],  
+                attacks: {
+                    "Rapier": {dsize: 6, dnum: 6, type: "Piercing", bonus: 6, traits: ["Deadly 3d8", "Disarm", "Finesse", "Reach 15 feet"]},
+                    "Ship's Cannon": {dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 40, special: "", otherSpeeds: [{type: "swim", label: "Swim", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Brigh", 
-                attacks: [{name: "Light Hammer", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Bolt of Molten Bronze", dsize: 8, dnum: 6, type: "Fire", bonus: 3}],  
+                attacks: {
+                    "Light Hammer": {dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Agile", "Reach 15 feet", "Thrown 40 feet"]},
+                    "Bolt of Molten Bronze": {dsize: 8, dnum: 6, type: "Fire", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 60, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Calistria", 
-                attacks: [{name: "Whip", dsize: 4, dnum: 6, type: "Slashing", bonus: 6}, {name: "Savoured Sting", dsize: 6, dnum: 6, type: "Poison", bonus: 3}],  
+                attacks: {
+                    "Whip": {dsize: 4, dnum: 6, type: "Slashing", bonus: 6, traits: ["Disarm", "Finesse", "Nonlethal", "Reach 20 feet"]},
+                    "Savoured Sting": {dsize: 6, dnum: 6, type: "Poison", bonus: 3, traits: ["Range 60 feet"]}
+                },  
                 speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Casandalee", 
-                attacks: [{name: "Polytool", dsize: 6, dnum: 6, type: "Slashing", bonus: 6}, {name: "Logic Blast", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                attacks: {
+                    "Polytool": {dsize: 6, dnum: 6, type: "Slashing", bonus: 6, traits: ["Reach 15 feet"]},
+                    "Logic Blast": {dsize: 6, dnum: 6, type: "Mental", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Cayden Cailean", 
-                attacks: [{name: "Rapier", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Ale Splash", dsize: 6, dnum: 6, type: "Poison", bonus: 3}],  
+                attacks: {
+                    "Rapier": {dsize: 6, dnum: 6, type: "Piercing", bonus: 6, traits: ["Deadly", "Reach 15 feet"]},
+                    "Ale Splash": {dsize: 6, dnum: 6, type: "Poison", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Chaldira", 
-                attacks: [{name: "Shortsword", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Fistful of Buttons", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3}],  
+                attacks: {
+                    "Shortsword": {dsize: 6, dnum: 6, type: "Piercing", bonus: 6, traits: ["Agile", "Finesse", "Reach 15 feet", "Versatile S"]},
+                    "Fistful of Buttons": {dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3, traits: ["Nonlethal", "Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Desna", 
-                attacks: [{name: "Starknife", dsize: 4, dnum: 6, type: "Piercing", bonus: 6}, {name: "Moonbeam", dsize: 6, dnum: 6, type: "Fire", bonus: 3}],  
+                attacks: {
+                    "Starknife": {dsize: 4, dnum: 6, type: "Piercing", bonus: 6, traits: ["Agile", "Deadly", "Finesse", "Reach 15 feet", "Silver", "Thrown 60 feet"]},
+                    "Moonbeam": {dsize: 6, dnum: 6, type: "Fire", bonus: 3, traits: ["Range 210 feet", "Silver"]}
+                },  
                 speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Erastil", 
-                attacks: [{name: "Longbow", dsize: 8, dnum: 6, type: "Piercing", bonus: 3}],  
+                attacks: {
+                    "Longbow": {dsize: 8, dnum: 6, type: "Piercing", bonus: 3, traits: ["Deadly d8", "Range Increment 150 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Ghlaunder", 
-                attacks: [{name: "Proboscis", dsize: 6, dnum: 6, type: "Piercing plus 3d6 persistent Bleed", bonus: 6}, {name: "Spine Volley", dsize: 6, dnum: 6, type: "Piercing", bonus: 3}],  
+                attacks: {
+                    "Proboscis": {dsize: 6, dnum: 6, type: "Piercing plus 3d6 persistent Bleed", bonus: 6, traits: ["Agile", "Reach 20 feet"]},
+                },  
                 speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Gorum", 
-                attacks: [{name: "Greatsword", dsize: 12, dnum: 6, type: "Slashing", bonus: 6}],  
+                attacks: {
+                    "Greatsword": {dsize: 12, dnum: 6, type: "Slashing", bonus: 6, traits: ["Versatile P", "Reach 15 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Gozreh", 
-                attacks: [{name: "Waves", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Wind", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3}],  
+                attacks: {
+                    "Waves": {dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Bull Rush", "Reach 15 feet", "Thrown 20 feet"]},
+                    "Wind": {dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 3, traits: ["Versatile Electricity", "Range 120 feet"]}
+                },  
                 speed: {value: 0, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}, {type: "swim", label: "Swim", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Grandmother Spider", 
-                attacks: [{name: "Leg", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Venom Web", dsize: 6, dnum: 6, type: "Poison", bonus: 3}],  
+                attacks: {
+                    "Leg": {dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Deadly 3d8", "Finesse", "Reach 15 feet", "Versatile P"]},
+                    "Venom Web": {dsize: 6, dnum: 6, type: "Poison", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Groetus", 
-                attacks: [{name: "War Flail", dsize: 10, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Dreadful Thought", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                attacks: {
+                    "War Flail": {dsize: 10, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Disarm", "Reach 15 feet", "Sweep", "Trip"]},
+                    "Dreadful Thought": {dsize: 6, dnum: 6, type: "Mental", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Gruhastha", 
-                attacks: [{name: "Fist", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Arrow of Enlightenment", dsize: 6, dnum: 6, type: "Piercing", bonus: 3}],  
+                attacks: {
+                    "Fist": {dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Agile", "Finesse", "Nonlethal", "Reach 15 feet"]},
+                    "Arrow of Enlightenment": {dsize: 6, dnum: 6, type: "Piercing", bonus: 3, traits: ["Deadly 3d10", "Range Increment 120 feet"]}
+                },  
                 speed: {value: 50, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Hei Feng", 
-                attacks: [{name: "Drunken Sword", dsize: 6, dnum: 4, type: "Slashing plus 1d6 Electricity splash", bonus: 6}, {name: "Storm Surge", dsize: 6, dnum: 4, type: "Bludgeoning plus 1d6 Electricity splash", bonus: 3, addEffect: "The caster is immune to this splash damage"}],  
+                attacks: {
+                    "Drunken Sword": {dsize: 6, dnum: 4, type: "Slashing plus 1d6 Electricity splash", bonus: 6, traits: ["Forceful", "Reach 15 feet"]},
+                    "Storm Surge": {dsize: 6, dnum: 4, type: "Bludgeoning plus 1d6 Electricity splash", bonus: 3, traits: ["Range 120 feet", "Air", "Water"], addEffect: "The caster is immune to this splash damage"}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Iomedae", 
-                attacks: [{name: "Longsword", dsize: 8, dnum: 6, type: "Slashing", bonus: 6}],  
+                attacks: {
+                    "Longsword": {dsize: 8, dnum: 6, type: "Slashing", bonus: 6, traits: ["Versatile P", "Reach 15 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Irori", 
-                attacks: [{name: "Unfettered Strike", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Wind Strike", dsize: 4, dnum: 6, type: "Bludgeoning", bonus: 6}],  
+                attacks: {
+                    "Unfettered Strike": {dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Agile", "Versatile P or S", "Finesse", "Reach 15 feet"]},
+                    "Wind Strike": {dsize: 4, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Range 60 feet"]}
+                },  
                 speed: {value: 80, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             }, 
             {
                 name: "Kazutal", 
-                attacks: [{name: "Machete", dsize: 6, dnum: 6, type: "Slashing", bonus: 6}, {name: "Jaguar Pounce", dsize: 6, dnum: 5, type: "Piercing plus 1d6 persistent Bleed", bonus: 3}],  
+                attacks: {
+                    "Machete": {dsize: 6, dnum: 6, type: "Slashing", bonus: 6, traits: ["Agile", "Reach 15 feet"]},
+                    "Jaguar Pounce": {dsize: 6, dnum: 5, type: "Piercing plus 1d6 persistent Bleed", bonus: 3, traits: ["Range 60 feet"]}
+                },  
                 speed: {value: 60, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Kurgess", 
-                attacks: [{name: "Lashing Chain", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6}, {name: "Javelin", dsize: 6, dnum: 6, type: "Piercing", bonus: 3}],  
+                attacks: {
+                    "Lashing Chain": {dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Disarm", "Reach 20 feet", "Trip"]},
+                    "Javelin": {dsize: 6, dnum: 6, type: "Piercing", bonus: 3, traits: ["Range Increment 60 feet", "Thrown"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}, {type: "swim", label: "Swim", value: "50", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Lamashtu", 
-                attacks: [{name: "Falchion", dsize: 10, dnum: 6, type: "Slashing", bonus: 6}, {name: "Waters of Lamashtu", dsize: 6, dnum: 6, type: "Poison", bonus: 3}],  
+                attacks: {
+                    "Falchion": {dsize: 10, dnum: 6, type: "Slashing", bonus: 6, traits: ["Forceful", "Reach 15 feet"]},
+                    "Waters of Lamashtu": {dsize: 6, dnum: 6, type: "Poison", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Milani", 
-                attacks: [{name: "Morningstar", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6}],  
+                attacks: {
+                    "Morningstar": {dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Versatile P", "Reach 15 feet"]}
+                },  
                 speed: {value: 50, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Nethys", 
-                attacks: [{name: "Raw Magic", dsize: 6, dnum: 6, type: "Force"}],  
+                attacks: {
+                    "Raw Magic": {dsize: 6, dnum: 6, type: "Force", traits: ["Range 120 feet", "Versatile Cold, Electricity, or Fire"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Nivi Rhombodazzle", 
-                attacks: [{name: "Returning Light Hammer", dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6}],  
+                attacks: {
+                    "Returning Light Hammer": {dsize: 6, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Agile", "Thrown 40 feet"]}
+                },  
                 speed: {value: 50, special: "", otherSpeeds: [{type: "burrow", label: "Burrow", value: "30", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Nocticula", 
-                attacks: [{name: "Tail Stinger", dsize: 6, dnum: 6, type: "Slashing", bonus: 6}, {name: "Magnanimous Smile", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                attacks: {
+                    "Tail Stinger": {dsize: 6, dnum: 6, type: "Slashing", bonus: 6, traits: ["Agile", "Finesse", "Reach 15 feet", "Trip"]},
+                    "Magnanimous Smile": {dsize: 6, dnum: 6, type: "Mental", bonus: 3, traits: ["Nonlethal", "Range 120 feet", "Visual"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Norgorber", 
-                attacks: [{name: "Shortsword", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Blackfinger Toss", dsize: 6, dnum: 6, type: "Poison", bonus: 3}],  
+                attacks: {
+                    "Shortsword": {dsize: 6, dnum: 6, type: "Piercing", bonus: 6, traits: ["Agile", "Finesse", "Versatile S", "Reach 15 feet"]},
+                    "Blackfinger Toss": {dsize: 6, dnum: 6, type: "Poison", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Pharasma", 
-                attacks: [{name: "Dagger", dsize: 6, dnum: 6, type: "Slashing", bonus: 6}, {name: "Spiral Blast", dsize: 8, dnum: 6, type: "Positive", bonus: 3}],  
+                attacks: {
+                    "Dagger": {dsize: 6, dnum: 6, type: "Slashing", bonus: 6, traits: ["Agile", "Finesse", "Reach 15 feet", "Thrown 40 feet"]},
+                    "Spiral Blast": {dsize: 8, dnum: 6, type: "Positive", bonus: 3, traits: ["Range 120 feet"], addEffect: "Damages only undead"}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Rovagug", 
-                attacks: [{name: "Jaws", dsize: 12, dnum: 6, type: "Piercing", bonus: 6}, {name: "Leg", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6}],  
+                attacks: {
+                    "Jaws": {dsize: 12, dnum: 6, type: "Piercing", bonus: 6, traits: ["Reach 15 feet"]},
+                    "Leg": {dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Agile", "Versatile P", "Reach 15 feet"]}
+                },  
                 speed: {value: 50, special: "", otherSpeeds: [{type: "burrow", label: "Burrow", value: "30", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Sarenrae", 
-                attacks: [{name: "Scimitar", dsize: 6, dnum: 6, type: "Piercing", bonus: 6}, {name: "Everflame", dsize: 6, dnum: 6, type: "Fire", bonus: 3}],  
+                attacks: {
+                    "Scimitar": {dsize: 6, dnum: 6, type: "Piercing", bonus: 6, traits: ["Forceful", "Nonlethal", "Reach 15 feet"]},
+                    "Everflame": {dsize: 6, dnum: 6, type: "Fire", bonus: 3, traits: ["Nonlethal", "Range 120 feet"]}
+                },  
                 speed: {value: 30, special: "", otherSpeeds: [{type: "fly", label: "Fly", value: "70", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Shelyn", 
-                attacks: [{name: "Glaive", dsize: 8, dnum: 6, type: "Slashing", bonus: 6}, {name: "Melody of Inner Beauty", dsize: 6, dnum: 6, type: "Sonic", bonus: 3}],  
+                attacks: {
+                    "Glaive": {dsize: 8, dnum: 6, type: "Slashing", bonus: 6, traits: ["Deadly d8", "Nonlethal", "Reach 20 feet"]},
+                    "Melody of Inner Beauty": {dsize: 6, dnum: 6, type: "Sonic", bonus: 3, traits: ["Nonlethal", "Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Shizuru", 
-                attacks: [{name: "Katana", dsize: 6, dnum: 6, type: "Slashing", bonus: 6}, {name: "Sunbolt Arrow", dsize: 6, dnum: 6, type: "Fire", bonus: 3}],  
+                attacks: {
+                    "Katana": {dsize: 6, dnum: 6, type: "Slashing", bonus: 6, traits: ["Deadly 3d8", "Two-Hand d10", "Reach 15 feet", "Versatile P"]},
+                    "Sunbolt Arrow": {dsize: 6, dnum: 6, type: "Fire", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: [{type: "climb", label: "Climb", value: "50", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Sivanah", 
-                attacks: [{name: "Bladed Scarf", dsize: 8, dnum: 6, type: "Slashing", bonus: 6}, {name: "Illusory Assault", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                attacks: {
+                    "Bladed Scarf": {dsize: 8, dnum: 6, type: "Slashing", bonus: 6, traits: ["Disarm", "Finesse", "Reach 15 feet", "Trip"]},
+                    "Illusory Assault": {dsize: 6, dnum: 6, type: "Mental", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Torag", 
-                attacks: [{name: "Warhammer", dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6}],  
+                attacks: {
+                    "Warhammer": {dsize: 8, dnum: 6, type: "Bludgeoning", bonus: 6, traits: ["Bull Rush", "Reach 15 feet"]}
+                },  
                 speed: {value: 50, special: "", otherSpeeds: [{type: "burrow", label: "Burrow", value: "30", exceptions: ""}]},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Tsukiyo", 
-                attacks: [{name: "Longspear", dsize: 10, dnum: 6, type: "Piercing", bonus: 6}, {name: "Moonbeam", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                attacks: {
+                    "Longspear": {dsize: 10, dnum: 6, type: "Piercing", bonus: 6, traits: ["Reach 20 feet"]},
+                    "Moonbeam": {dsize: 6, dnum: 6, type: "Mental", bonus: 3, traits: ["Nonlethal", "Range 120 feet", "Silver"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Urgathoa", 
-                attacks: [{name: "Scythe", dsize: 10, dnum: 6, type: "Slashing", bonus: 6}, {name: "Pallid Plague", dsize: 6, dnum: 6, type: "Negative", bonus: 3}],  
+                attacks: {
+                    "Scythe": {dsize: 10, dnum: 6, type: "Slashing", bonus: 6, traits: ["Deadly d10", "Trip", "Reach 15 feet"]},
+                    "Pallid Plague": {dsize: 6, dnum: 6, type: "Negative", bonus: 3, traits: ["Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
             {
                 name: "Zon-Kuthon", 
-                attacks: [{name: "Spiked Chain", dsize: 8, dnum: 6, type: "Slashing", bonus: 6}, {name: "Midnight Pain", dsize: 6, dnum: 6, type: "Mental", bonus: 3}],  
+                attacks: {
+                    "Spiked Chain": {dsize: 8, dnum: 6, type: "Slashing", bonus: 6, traits: ["Disarm", "Trip", "Reach 15 feet"]},
+                    "Midnight Pain": {dsize: 6, dnum: 6, type: "Mental", bonus: 3, traits: ["Mental", "Nonlethal", "Range 120 feet"]}
+                },  
                 speed: {value: 70, special: "", otherSpeeds: []},
                 senses: [{type: "darkvision", label: "Darkvision", value: "", exceptions: ""}],
             },
@@ -648,7 +931,11 @@ let formGroups = [ // contains Attack info for the forms
         forms: [ 
             {
                 name: "Mammoth", 
-                attacks: [{name: "Tusk", dsize: 8, dnum: 4, type: "Piercing", bonus: 19}, {name: "Trunk", dsize: 6, dnum: 4, type: "Bludgeoning", bonus: 16}, {name: "Foot (agile)", dsize: 6, dnum: 4, type: "Bludgeoning", bonus: 13}], 
+                attacks: {
+                    "Tusk": {dsize: 8, dnum: 4, type: "Piercing", bonus: 19, traits: ["Reach 15 feet"]},
+                    "Trunk": {dsize: 6, dnum: 4, type: "Bludgeoning", bonus: 16, traits: ["Agile", "Reach 15 feet"]},
+                    "Foot": {dsize: 6, dnum: 4, type: "Bludgeoning", bonus: 13, traits: ["Agile, Reach 15 feet"]}
+                }, 
                 speed: {value: 40, special: "", otherSpeeds: []},
                 senses: [{type: "lowLightVision", label: "Low-Light Vision", value: "", exceptions: ""}],
             },
