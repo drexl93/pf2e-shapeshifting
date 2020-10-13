@@ -44,6 +44,10 @@ Copy the following link into your Manifest URL bar in the Module Installation wi
 * For example, if your token is "Bob.png", to set up tokens for the Animal Form spell you would label them as "BobCat.png", "BobBull.png", etc. The full list of the forms and their names are at the start of the macro for reference.
 * If you would like to disable the Token Image Change feature for Wild Shape, find the commented out section beginning with "// Change image" in the wildShape macro. Comment out just that section (until before "// Change size") by adding "//" before each of those lines.
 
+### Changelog v. 6.0.0:
+* Improved dialog UI
+* All attacks now show their relevant traits and additional effects in the roll
+
 ---
 
 ### Endnotes
