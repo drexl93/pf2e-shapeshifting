@@ -43,7 +43,7 @@ async function roll(){
     let messageData = {
         user: game.user._id,
         speaker: {
-            alias: actor.name
+            alias: actor.name + ` (${formData.name})`
         },
         flavor,
     }
@@ -83,7 +83,7 @@ async function roll(){
         messageData = {
             user: game.user._id,
             speaker: {
-                alias: actor.name
+                alias: actor.name + ` (${formData.name})`
             },
             flavor: `${selectedStrike} Damage: ${attack.type}`
         }
@@ -102,7 +102,7 @@ async function roll(){
             messageData = {
                 user: game.user._id,
                 speaker: {
-                    alias: actor.name
+                    alias: actor.name + ` (${formData.name})`
                 },
                 flavor: `${selectedStrike} Damage: ${plusDamage.type}`
             }
