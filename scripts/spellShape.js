@@ -952,7 +952,7 @@ let scalingAttributes = { // for sizes, 1 is Medium, 2 is Large, 3 is Huge, 4 is
         },
     ],
 
-    wildShape:
+    animalForm:
     [// Animal Forms
         {level: 2, mod: 9, ac: 16, temphp: 5, damage: 1, skills: {athletics: 9}, size: 1},
         {level: 3, mod: 14, ac: 17, temphp: 10, damage: 5, skills: {athletics: 14}, size: 1},
@@ -960,53 +960,53 @@ let scalingAttributes = { // for sizes, 1 is Medium, 2 is Large, 3 is Huge, 4 is
         {level: 5, mod: 18, ac: 18, temphp: 20, damage: 7, skills: {athletics: 20}, size: 3, double: true}
     ],
     
-    insectShape:
+    insectForm:
     [// Insect Forms
         {level: 3, mod: 13, ac: 18, temphp: 10, damage: 2, skills: {athletics: 13}, size: 1},
         {level: 4, mod: 16, ac: 18, temphp: 15, damage: 6, skills: {athletics: 16}, size: 2},
         {level: 5, mod: 18, ac: 18, temphp: 20, damage: 2, skills: {athletics: 20}, size: 3, double: true},
     ],
 
-    soaringShape:
+    aerialForm:
     [// Soaring Forms
         {level: 4, mod: 16, ac: 18, temphp: 5, damage: 5, skills: {acrobatics: 16}, size: 1},
         {level: 5, mod: 18, ac: 18, temphp: 10, damage: 8, skills: {acrobatics: 20}, size: 2},
         {level: 6, mod: 21, ac: 21, temphp: 15, damage: 4, skills: {acrobatics: 23}, size: 3, double: true},
     ],
 
-    ferociousShape:
+    dinosaurForm:
     [// Ferocious Forms
         {level: 4, mod: 16, ac: 18, temphp: 15, damage: 9, skills: {athletics: 18}, size: 2},
         {level: 5, mod: 18, ac: 18, temphp: 20, damage: 6, skills: {athletics: 21}, size: 3, double: true},
         {level: 7, mod: 25, ac: 21, temphp: 25, damage: 15, skills: {athletics: 25}, size: 4, double: true},
     ],
 
-    elementalShape:
+    elementalForm:
     [// Elemental Forms
         {level: 5, mod: 18, ac: 18, temphp: 10, damage: 9, skills: {athletics: 20, acrobatics: 20}, size: 1},
         {level: 6, mod: 23, ac: 22, temphp: 15, damage: 13, skills: {athletics: 23, acrobatics: 20}, size: 2},
         {level: 7, mod: 25, ac: 22, temphp: 20, damage: 11, skills: {athletics: 25, acrobatics: 20}, size: 3, double: true},
     ],
 
-    plantShape:
+    plantForm:
     [// Plant Forms
         {level: 5, mod: 17, ac: 19, temphp: 12, damage: 11, skills: {athletics: 19}, size: 2},
         {level: 6, mod: 21, ac: 22, temphp: 24, damage: 16, skills: {athletics: 22}, size: 3},
     ],
 
-    dragonShape:
+    dragonForm:
     [// Dragon Forms
         {level: 6, mod: 22, ac: 18, temphp: 10, damage: 6, skills: {athletics: 23}, size: 2},
         {level: 8, mod: 28, ac: 21, temphp: 15, damage: 12, skills: {athletics: 28}, size: 3},
     ],
 
-    monstrosityShape:
+    monstrosityForm:
     [// Monstrosity Forms
         {level: 8, mod: 28, ac: 20, temphp: 20, skills: {athletics: 30}, size: 3},
         {level: 9, mod: 31, ac: 22, temphp: 25, skills: {athletics: 33}, size: 3},
     ],
 
-    trueShapeshifter:
+    natureIncarnate:
     [// True Shapeshifter form
         {level: 10, mod: 34, ac: 25, temphp: 30, skills: {athletics: 36}, size: 4},
     ],
