@@ -3,7 +3,7 @@
     "title": "PF2e Shapeshifting",
     "description": "Macros to help facilitate shapeshifting in PF2e",
     "author": "drexl93",
-    "version": "6.0.0",
+    "version": "6.0.1",
     "minimumCoreVersion": "0.7.0",
     "compatibleCoreVersion": "0.7.5",
     "packs": [
