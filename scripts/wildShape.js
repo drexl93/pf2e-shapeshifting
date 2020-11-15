@@ -1087,8 +1087,8 @@ async function transform(html) {
             // if Form Attack Mod is less than Unarmed Attack mod of the actor, add a +2 to Unarmed
             // Attack mod and let the form attacks use that instead
             formValue = levelAttributes.mod
-            if ((actor.data.data.actions).find(action => action.name === "Handwraps of Mighty Blows")) {
-                origValue = (actor.data.data.actions).find(action => action.name === "Handwraps of Mighty Blows").totalModifier
+            if ((actor.data.data.actions).find(action =>  action.name.includes("Handwraps of Mighty Blows") )) {
+                origValue = (actor.data.data.actions).find(action => action.name.includes("Handwraps of Mighty Blows")).totalModifier
             } else {
                 origValue = ((actor.data.data.actions).find(action => action.name === "Fist")).totalModifier
             }
