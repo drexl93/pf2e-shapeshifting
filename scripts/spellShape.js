@@ -1366,6 +1366,19 @@ async function chooseForm(actualForm, castingLevel, imgChange, className) {
             await actor.addCustomModifier("ac", "Spellform Bonus AC", formACBonus, "untyped");
         }
 
+        // if Form Attack Mod is less than Unarmed Attack mod of the actor,
+        // let the form attacks use that instead
+        formValue = levelAttributes.mod
+        if ((actor.data.data.actions).find(action => action.name === "Handwraps of Mighty Blows")) {
+            origValue = (actor.data.data.actions).find(action => action.name === "Handwraps of Mighty Blows").totalModifier
+        } else {
+            origValue = ((actor.data.data.actions).find(action => action.name === "Fist")).totalModifier
+        }
+        if (formValue < origValue) {
+            levelAttributes.ownMod = origValue;
+            await actor.setFlag("world", "ss_levelAttributes", levelAttributes)
+        }
+
         // remember original senses for reset
         origSenses = JSON.parse(JSON.stringify(actor.data.data.traits.senses));
         await actor.setFlag("world", "ss_origSenses", origSenses);

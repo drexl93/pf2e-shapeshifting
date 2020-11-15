@@ -3,9 +3,9 @@
     "title": "PF2e Shapeshifting",
     "description": "Macros to help facilitate shapeshifting in PF2e",
     "author": "drexl93",
-    "version": "6.0.1",
+    "version": "6.0.2",
     "minimumCoreVersion": "0.7.0",
-    "compatibleCoreVersion": "0.7.5",
+    "compatibleCoreVersion": "0.7.7",
     "packs": [
         {
             "name": "PF2e Shapeshifting",
@@ -14,9 +14,6 @@
             "entity": "Macro",
             "module": "pf2e-shapeshifting"
         }
-    ],
-    "scripts": [
-        "init.js"
     ],
     "url": "https://github.com/drexl93/pf2e-shapeshifting",
     "manifest": "https://raw.githubusercontent.com/drexl93/pf2e-shapeshifting/master/module.json",
