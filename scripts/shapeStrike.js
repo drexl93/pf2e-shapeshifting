@@ -20,14 +20,13 @@ let levelAttributes = actor.getFlag("world", "ws_levelAttributes")
 if (!levelAttributes) {
     levelAttributes = actor.getFlag("world", "ss_levelAttributes");
 }
-
+let attack;
 
 // -------------------------------------------------------------------
 // DECLARE FUNCTIONS
 //
 
 async function roll(){
-    let attack = formData.attacks[selectedStrike]
     let flavor = `<div>${selectedStrike} Attack</div>`
     if (attack.addEffect) {
         flavor += `<div style="line-height: normal; padding-bottom: 5px"><span style="font-weight: bold; line-height: 5px">Additional Effect: </span><span>${attack.addEffect}</div>`
@@ -162,6 +161,7 @@ let d = new Dialog({
             callback: (html) => { 
                 // selectedStrike is the attack picked in the dropdown menu, matched to its details in the embedded formData array
                 selectedStrike = html.find("#attack")[0].value; 
+                attack = formData.attacks[selectedStrike]
                 wsAttack = new Roll("1d20 + @mod", {mod: mod});
                 roll();
                 this.execute()
@@ -172,7 +172,9 @@ let d = new Dialog({
             label: "Second",
             callback: (html) => {
                 selectedStrike = html.find("#attack")[0].value; 
+                attack = formData.attacks[selectedStrike]
                 if (attack.traits?.includes("Agile")) {
+                    console.log("Agile")
                     wsAttack = new Roll("1d20 + @mod + @pen", {mod: mod, pen: -4});
                 } else {
                     wsAttack = new Roll("1d20 + @mod + @pen", {mod: mod, pen: -5});
@@ -186,6 +188,7 @@ let d = new Dialog({
             label: "Third+",
             callback: (html) => {
                 selectedStrike = html.find("#attack")[0].value; 
+                attack = formData.attacks[selectedStrike]
                 if (attack.traits?.includes("Agile")) {
                     wsAttack = new Roll("1d20 + @mod + @pen", {mod: mod, pen: -8});
                 } else {
