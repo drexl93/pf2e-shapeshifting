@@ -56,7 +56,7 @@ Copy the following link into your Manifest URL bar in the Module Installation wi
 ---
 
 ### Endnotes
-I welcome any and all feedback you have about these macros!
+I welcome any and all feedback you have about these macros! The best way to get in touch with me is via Discord (Some Knucklehead#4725).
 
 I only started learning javascript over the past few months, and entirely so that I could tinker around with Foundry. An experienced developer would likely have a heart-attack seeing my code, for which I apologize.
 
