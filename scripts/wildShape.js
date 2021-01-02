@@ -1,5 +1,3 @@
-// TODO: See if you can add special form notes (like Sharks only breathing underwater) to Biography
-
 // ----------------------------------------------------------------
 // FORM STATS.
 //
@@ -694,35 +692,6 @@ let heightenedLevel = Math.ceil((actor.data.data.details.level.value) / 2);
 // DECLARE FUNCTIONS
 // -------------------------------------------------------------------
 
-//TODO: UNFINISHED
-
-// function addFormDetails() {
-//     if (formData.details) {
-//         let bio = actor.data.data.details.biography.value;
-//         let addedDetails = `<div id="formDetails"><h2>Form Details:</h2>${formData.details}</div>`
-//         length = addedDetails.length
-//         console.log(length);
-//         bio += addedDetails
-//         actor.update({ "data.details.biography.value" : bio })
-//     }
-// }
-
-// function removeFormDetails() {
-//     console.log("running remove form details)")
-//     let bio = actor.data.data.details.biography.value;
-//     console.log("bio=" + bio)
-//     let startpoint = bio.search('<div id="formDetails">')
-//     console.log("startpoint=" + startpoint)
-//     let bioBefore = bio.slice(0, startpoint)
-//     console.log("bioBefore=" + bioBefore)
-//     console.log("detailsLength=" + length);
-//     let bioAfter = bio.slice((startpoint + length), bio.length)
-//     console.log("bioAfter=" + bioAfter)
-//     bio = bioBefore + bioAfter;
-//     console.log("bioupdated=" + bio)
-//     actor.update({ "data.details.biography.value" : bio })
-// }
-
 function runDialog(dialog, height, width) {
     if (height) {
         dialog.options.height = height;
@@ -1119,7 +1088,8 @@ async function transform(html) {
             // at the end of your token name. Comment out the next three if you don't want the image to change
             let origImg = token.data.img;
             await actor.setFlag("world", "ws_origImg", origImg)
-            let img = origImg.slice(0, -4) + (formData.name) + ".png";
+            let extensionIndex = (origImg.lastIndexOf('.') - origImg.length)
+            let img = origImg.slice(0, extensionIndex) + (formData.name) + origImg.slice(extensionIndex);
             await token.update({ img });
             await actor.update({ "token.img" : img})
 
@@ -1129,8 +1099,6 @@ async function transform(html) {
             } else {
                 await setSize(levelAttributes.size);
             }
-
-            // addFormDetails();
 
         } else {
             ui.notifications.error("Please return to normal form before transforming again."); 
