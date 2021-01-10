@@ -1085,7 +1085,7 @@ async function transform(html) {
             };
 
             // Change image. Make sure your images are labeled with the form name (w/ correct capitalization)
-            // at the end of your token name. Comment out the next three if you don't want the image to change
+            // at the end of your token name.
             let origImg = token.data.img;
             await actor.setFlag("world", "ws_origImg", origImg)
             let extensionIndex = (origImg.lastIndexOf('.') - origImg.length)
