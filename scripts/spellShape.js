@@ -1118,6 +1118,7 @@ async function reset(){
     if (img) {
         await token.update({ img });
         await actor.update({ "token.img" : img })
+        await actor.unsetFlag("world", "ss_origImg")
     }
 
     // This resets the token size. If you use small-size tokens in your game, delete the '//'s 
