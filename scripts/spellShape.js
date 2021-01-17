@@ -1400,7 +1400,7 @@ async function chooseForm(actualForm, castingLevel, imgChange, className) {
         // at the end of your token name.
         if (imgChange) {
             let origImg = token.data.img;
-            await actor.setFlag("world", "ws_origImg", origImg)
+            await actor.setFlag("world", "ss_origImg", origImg)
             let extensionIndex = (origImg.lastIndexOf('.') - origImg.length)
             let img = origImg.slice(0, extensionIndex) + (formData.name) + origImg.slice(extensionIndex);
             await token.update({ img });
