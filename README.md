@@ -41,7 +41,7 @@ Copy the following link into your Manifest URL bar in the Module Installation wi
 
 ### Token Image Change Feature
 * If you would like to use the Token Image Change feature, make sure the token has the exact name of the form appended to the end of the name of your token.
-* **All images must be in PNG format**
+* **Original images and Form images must be of the same file type** (e.g. both must be PNG, or both must be JPG, etc)
 * For example, if your token is "Bob.png", to set up tokens for the Animal Form spell you would label them as "BobCat.png", "BobBull.png", etc. The full list of the forms and their names are at the start of the macro for reference.
 * If you would like to disable the Token Image Change feature for Wild Shape, find the commented out section beginning with "// Change image" in the wildShape macro. Comment out just that section (until before "// Change size") by adding "//" before each of those lines.
 
