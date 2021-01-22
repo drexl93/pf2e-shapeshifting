@@ -672,25 +672,24 @@ let formValue = 0;
 let origValue = 0;
 let origSpeeds = {};
 let origSenses = [];
-let length = 0;
+let levelAttributes;
 
-if (!token) {
-    ui.notifications.error("Please select a token"); 
-    return; 
-}
+// Get current tempHP and store it
 let tempHP = actor.data.data.attributes.hp.temp;
 if (!tempHP) {
     tempHP = 0;
 }
+
+// Get flags indicating whether actor is already transformed
 let formData = actor.getFlag("world", "ws_formData");
 let isSpellShaped = actor.getFlag("world", "ss_formData");
-let levelAttributes;
-let heightenedLevel = Math.ceil((actor.data.data.details.level.value) / 2); 
 
 
 // -------------------------------------------------------------------
 // DECLARE FUNCTIONS
 // -------------------------------------------------------------------
+
+// Function to set display properties of the dialogs
 
 function runDialog(dialog, height, width) {
     if (height) {
@@ -706,6 +705,8 @@ function runDialog(dialog, height, width) {
 
 // -------------------------------------------------------------------
 
+// Two sister functions to remove things like Athletics/Acrobatics bonuses, etc
+
 async function removeCustomMods() {
     let customMods = Object.keys(actor.data.data.customModifiers)
     for (let element of customMods) {
@@ -717,8 +718,6 @@ async function removeCustomMods() {
     }
 }
 
-// -------------------------------------------------------------------
-
 async function removeMod(type, label) {
     if (actor.data.data.customModifiers[type]) {
         await actor.removeCustomModifier(`${type}`, label);
@@ -727,7 +726,10 @@ async function removeMod(type, label) {
 
 // -------------------------------------------------------------------
 
+// Function to reset all attributes back to original (non-transformed) state
+
 async function reset(){
+
     // back to default image, if we changed it
     let img = actor.getFlag("world", "ws_origImg");
     if (img) {
@@ -736,8 +738,8 @@ async function reset(){
         await actor.unsetFlag("world", "ws_origImg")
     }
 
-    // This resets the token size. If you use small-size tokens in your game, delete the '//'s 
-    // preceding the next complete 'if' statement. This will ensure Small PCs revert to their 
+    // The following resets the token size. If you use small-size tokens in your game, delete the 
+    // '//'s preceding the next complete 'if' statement. This will ensure Small PCs revert to their 
     // correct size rather than becoming Medium.
     
     // if (actor.data.data.traits.size.value === "med"){
@@ -746,11 +748,15 @@ async function reset(){
     //    await setSize(0.5);
     // };
 
-    // remove all form attributes from token
+    // Remove all form data that we had attached to the actor
     await actor.unsetFlag("world", "ws_formData")
     await actor.unsetFlag("world", "ws_levelAttributes")
 
     // Remove any resistances/weaknesses that were given by transformation
+    // The filterOut array is created from any vulnerabilities/resistances that DON'T have WSForm
+    // in their name. We then simply update the actor with the filterOut array, returning them to
+    // whatever resistances/vulnerabilities that were not given by transformation
+
     let filterOut = actor.data.data.traits.dv.filter(element => 
         !element.label.includes("WSForm"))
     await actor.update({ "data.traits.dv" : filterOut });
@@ -762,35 +768,42 @@ async function reset(){
     await resetSenses();
     await resetSpeeds();
 
-    // if tempHP was changed, remove tempHP
+    // reset tempHP if it was changed
     await resetTempHP();
 
     // remove any custom bonuses applied from the transformation
     await removeCustomMods();
-
-    // removeFormDetails();
 };
 
 // -------------------------------------------------------------------
 
+// Function to replace temp HP given by transformation
+
 async function resetTempHP() {
-    let oldTempHP = await actor.getFlag("world", "ws_tempHPChanged")
-    if (oldTempHP >= 0) {
+
+    // If the form's temp HP replaced any other temp HP that may or may not have existed at the
+    // time of transformation, when the form reverts, remove all temp HP
+    let didTempHPChange = await actor.getFlag("world", "ws_tempHPChanged")
+    if (didTempHPChange === true) {
         await actor.unsetFlag("world", "ws_tempHPChanged")
-        await actor.update({ "data.attributes.hp.temp": oldTempHP });
-    }  
+        await actor.update({ "data.attributes.hp.temp": 0 });
+    }
 }
 
 // -------------------------------------------------------------------
 
-// Apply wide ranging bonuses gained from having specific wild shape feats
+// Function to apply wide ranging bonuses gained from having specific wild shape feats
+
 async function featCheck(formData, formType){
+
     // If the actor has the feat, and is not transforming into one of the forms granted
     // by that feat, they get the appropriate resistance
     if (wsFeats.includes("Elemental Shape") && formType !== "elementalShape") {
+
         // if the form doesn't have any resistances, add fire resistance 5
         if (!formData.resistances) {
             formData.resistances = {fire: 5};
+
         // if the form has resistances, but no fire resistance, OR if they have fire resistance,
         // but not fire resistance of 5 or greater, they have fire resistance 5
         } else if (!formData.resistances.fire || (formData.resistances.fire && (formData.resistances.fire < 5))) {
@@ -798,7 +811,7 @@ async function featCheck(formData, formType){
         }
     }
 
-    // same logic as for plant form
+    // same logic as for elemental form
     if (wsFeats.includes("Plant Shape") && formType !== "plantShape") {
         if (!formData.resistances) {
             formData.resistances = {poison: 5};
@@ -814,10 +827,13 @@ async function featCheck(formData, formType){
 
 // -------------------------------------------------------------------
 
-// If the form has resistances or weaknesses, add them
+// Function to apply resistances and weaknesses if the form has them
+
 async function applyResistances(formData) {
     if (formData.resistances) {
         let resistances = formData.resistances;
+
+        // Iterate through the new form's resistances, and add each of them to the actor
         for (let type in resistances) {
             if (resistances.hasOwnProperty(type)) {
                 actor.data.data.traits.dr.push({
@@ -834,6 +850,8 @@ async function applyResistances(formData) {
         let newResistances = JSON.parse(JSON.stringify(actor.data.data.traits.dr))
         await actor.update({ "data.traits.dr" : newResistances })
     }
+
+    // Same logic as above for weaknesses
 
     if (formData.weaknesses) {
         let weaknesses = formData.weaknesses;
@@ -854,6 +872,9 @@ async function applyResistances(formData) {
 
 // -------------------------------------------------------------------
 
+// Function to reset speeds to the original, using the flag we had stored the data in at the time
+// of transformation
+
 async function resetSpeeds() {
     let revert = actor.getFlag("world", "ws_origSpeeds")
     await actor.update({ "data.attributes.speed" : revert})
@@ -861,6 +882,9 @@ async function resetSpeeds() {
 }
 
 // -------------------------------------------------------------------
+
+// Function to reset senses to the original, using the flag we had stored the data in at the time
+// of transformation
 
 async function resetSenses() {
     let revert = actor.getFlag("world", "ws_origSenses")
@@ -870,9 +894,11 @@ async function resetSenses() {
 
 // -------------------------------------------------------------------
 
-// scales up token depending on the provided size of the new form
+// Function to scale up token depending on the size of the new form, OR depending on the
+// parameter passed into the function
+
 async function setSize(newSize){ 
-    if (formData && formData.size) {
+    if (formData?.size) {
         token.update({ width: formData.size, height: formData.size });
         await actor.update({ "token.width": formData.size, "token.height": formData.size });
     } else {
@@ -883,28 +909,69 @@ async function setSize(newSize){
 
 // -------------------------------------------------------------------
 
+// Function to apply the form's skill bonuses to the actor
+
 // if the form level's skill bonuses are greater than the character's, use those
 // apply any feat bonuses if applicable
 async function skillBonus(levelSkills, baseSkills, formName) {
-    // 'skills' will become an array of the skills the form at this level gives you access to
+
+    // The 'skills' variable will become an array of the skills that the form at this level gives 
+    // you access to
     let skills = Object.keys(levelSkills)
+
     // for each item of the 'skills' array, find the appropriate skill abbreviation from the 
     // skillrefs array. This logic allows for a single form to grant new values to multiple skills
     for (let skill of skills) {
-        // Earth/Water elementals get only a bonus to atheltics, Air/Fire only to acrobatics
+
+        // Earth/Water elementals get only a bonus to Atheltics, Air/Fire only to Acrobatics
         if (formName === "Earth" || formName === "Water") { skill = "athletics"; }
         else if (formName === "Air" || formName === "Fire") { skill = "acrobatics" }
         let abbr = skillRefs[skill];
-        origValue = baseSkills[abbr].value // the original value the actor has for that skill
-        formValue = levelSkills[skill] // get the new (form) value of the skill
 
+        // The following two variables are used to keep track of what bonuses to look at or ignore
+        // for transformation. For example, item bonuses/penalties should not be factored in when
+        // calculating the actor's original scores (to determine whether the form or the actor has
+        // the higher skill modifier), and item bonuses/penalties do not count while transformed
+        let removedModsTotal = 0;
+        let otherMods = 0;
+        
+        baseSkills[abbr]._modifiers.forEach(modifier => {
+            if (modifier.enabled === true) {
+                if (modifier.type === "item" || modifier.name === "PF2E.ArmorCheckPenalty") {
+                    removedModsTotal += (parseInt(modifier.modifier))
+                } else if (modifier.type === "circumstance" || modifier.type === "status" || modifier.type === "untyped") {
+                    otherMods += (parseInt(modifier.modifier))
+                }
+            }
+        })
+
+        // Calculate the actor's modifier, without item bonuses or penalties
+        origValue = baseSkills[abbr].value - removedModsTotal 
+
+        // Calculate what the form's modifier would be, taking into account status/circumstance/untyped
+        // penalties currently affecting the actor
+        formValue = levelSkills[skill] + otherMods 
+
+        // If the form's modifier is higher than the actor's modifier, apply an untyped bonus to
+        // that skill to bring it into line with what's expected for the form. Status/circumstance/untyped
+        // bonuses and penalties are still taken into account. So for example if you were Frightened 2
+        // at the time of transformation, your skill modifier once you've transformed will be 2 lower
+        // than normal
         if (formValue > origValue) {
             const formBonus = formValue - origValue;
             await actor.addCustomModifier(skill, `WSForm ${skill} Bonus`, formBonus, "untyped")
+
+            // To illustrate that item bonuses/penalties do not apply while transformed, and neither
+            // does the Armor Check Penalty add a new 'balancer' modifier to show that
+            if (removedModsTotal) {
+                await actor.addCustomModifier(skill, `WSForm Balancer`, (removedModsTotal*-1), "untyped")
+            }
         }
+
         if (wsFeats.includes("Ferocious Shape") && skill === "athletics") {
             await actor.addCustomModifier("athletics", "WSForm Ferocious Bonus", 1, "status");
         }
+
         if (wsFeats.includes("Soaring Shape") && skill === "acrobatics") {
             await actor.addCustomModifier("acrobatics", "WSForm Soaring Bonus", 1, "status");
         }
@@ -913,9 +980,12 @@ async function skillBonus(levelSkills, baseSkills, formName) {
 
 // -------------------------------------------------------------------
 
-// if the druid has Dragon Shape, this will pop up a dialog to choose your resistance when transforming
-// into a non-Dragon form
+// Function to support Dragon Shape.
+// If the druid has the Dragon Shape feat, this will pop up a dialog to choose your resistance
+// when transforming into a non-Dragon form
+
 async function dragonResistance() {
+
     let content2 = "";
     content2 += `<div style="text-align: center"><label for="resistance">Choose your resistance:</label>
                         <select name="resistance" id="resistance" style="margin: 5px 0">
@@ -924,6 +994,7 @@ async function dragonResistance() {
                         <option value="electricity">Electricity</option>
                         <option value="fire">Fire</option>
                         <option value="poison">Poison</option></select></div>`
+
     let d2 = new Dialog({
         title: "Draconic Resistance",
         content: content2,
@@ -933,8 +1004,16 @@ async function dragonResistance() {
                 label: "Select",
                 callback: async (html) => {
                     let type = html.find("#resistance")[0].value;
+
+                    // If the form you're transforming into has no native resistances, simply set
+                    // resistances to your choice from this dialog
                     if (!formData.resistances) {
                         formData.resistances = {[type]: 5};
+
+                    // If the form you're transforming into already has some resistances:
+                    // 1) if it already has the draconic resistance you chose, make sure the higher
+                    // of the 2 is kept
+                    // 2) if it has a different resistance, add the draconic resistance to the array
                     } else if (!formData.resistances[type] || 
                         ((formData.resistances[type]) && (formData.resistances[type]<5))) {
                         formData.resistances[type] = 5
@@ -949,46 +1028,74 @@ async function dragonResistance() {
 
 // -------------------------------------------------------------------
 
-// Change the token's speeds to the form's
+// Function to change the token's speeds to the form's
+
 async function changeSpeeds() {
-    // if there are any changes to speed at this level of the spell, use those
+
+    // If there are any changes to speed at this LEVEL of the spell, use those
     if (levelAttributes.speed) {
         await actor.update({ "data.attributes.speed" : levelAttributes.speed })
-    } else {  // otherwise use the form's base speeds
+
+    // Otherwise use the form's base speeds
+    } else {  
         await actor.update({ "data.attributes.speed" : formData.speed })
     }
 }
 
 // -------------------------------------------------------------------
 
-// Change the token's senses to the form's
+// Function to change the token's senses to the form's
+
 async function setSenses() {
-    // if there are any changes to senses at this level of the spell, use those
+
+    // If there are any changes to senses at this LEVEL of the spell, use those
     if (levelAttributes.senses) {
         await actor.update({ "data.traits.senses" : levelAttributes.senses })
-    } else { // otherwise use the form's base senses
+
+    // Otherwise use the form's base senses
+    } else { 
         await actor.update({ "data.traits.senses" : formData.senses })
     }
 }
 
-// ----------------------------------------------------> Main Transform Function
+// -------------------------------------------------------------------
+
+// Main Transform Function
 
 async function transform(html) {
-        if (!formData) { // if actor isn't already transformed ->
+
+        // Check to see if the actor is already transformed. If they are, abort and tell them to
+        // revert before transforming again
+        if (!formData) {
+
+            // What level is the spell being cast at?
             let castingLevel = html.find("#level")[0].value;
+
+            // Find what the "group" of forms is (e.g. Animal Form, Insect Form, etc)
             let formType = html.find('#forms')[0].selectedOptions[0].className;
+
+            // Find what the actual form is (e.g Ape, Scorption, etc)
             let actualForm = html.find('#forms')[0].value;
 
-            // Set up level variables
+            // The maximum level of the form will be the last entry in that form's group under the
+            // Scaling Attributes array at the top of this macro
             let maxLevel = scalingAttributes[formType][scalingAttributes[formType].length - 1].level;
+
+            // The minimum level of the form will be the first entry in that form's group under the
+            // Scaling Attributes array at the top of this macro
             let minLevel = scalingAttributes[formType][0].level
             if (castingLevel === "Auto") {
-                // if heightened level is lower than the min level of transformation, you cannot transform
+
+                // If your auto-heightened level is lower than the minimum level of transformation,
+                // you cannot transform
                 if (heightenedLevel < minLevel) { 
                     ui.notifications.error("You are not a high enough level to transform into that form."); 
                     return;
                 }
             } else {
+
+                // If the level you're casting the spell at is lower than the minimum level of
+                // transformation, you cannot transform
                 heightenedLevel = parseInt(castingLevel)
                 if (heightenedLevel < minLevel) { 
                     ui.notifications.error("You cannot transform into that form at the selected spell level."); 
@@ -996,21 +1103,25 @@ async function transform(html) {
                 }
             }
              
-            // add Form Attributes to token for reference
+            // Attach the Form's Attributes (the data under the formGroups object at the top of the
+            // macro) to the actor for reference. Iterate through all formGroups, finding the one
+            // that matches the formType variable from earlier, and then going deeper to find the 
+            // actual form selected
             for (let group of formGroups) {
-                // find the class in formGroups that matches the formType from the selected option in the dialog
                 if (group.class === formType) { 
                     formData = (group.forms).find(element => element.name === actualForm);
                     await actor.setFlag("world", "ws_formData", formData);
                 }
             }
 
-            if (heightenedLevel > maxLevel) { // if heightened level exceeds max level of spell, set it to work at max level
+            // If the level you're casting the spell at (using Auto-heightening) exceeds the max
+            // level of the spell, set it to work at max level
+            if (heightenedLevel > maxLevel) { 
                 heightenedLevel = maxLevel;
             };
             
-            // add the scaling attributes of our selected form to our token for reference
-            // if the spell is being cast at less than max level, but not at a level for which there is a specific entry,
+            // Add the Scaling Attributes of our selected form to our actor for reference
+            // If the spell is being cast at less than max level, BUT not at a level for which there is a specific entry,
             // find the next lowest level and cast it at that level
             for (let i = 0; i <= heightenedLevel; i++) {
                 if (!levelAttributes) {
@@ -1025,62 +1136,61 @@ async function transform(html) {
                 }
             }
             
-            // if there are any form-specific skills, set those first
+            // If the FORM ITSELF provides any specific bonuses to skills, set those first. There are
+            // currently no forms that do this, but this is for future proofing and custom forms
             if (formData.skills) {
-                let formSkills = Object.keys(formData.skills)
-                for (let i = 0; i < formSkills.length; i++) {
-                    let modSkill = (Object.values(actor.data.data.skills)).find(element => element.name === formSkills[i])
-                    let modValue;
-                    if (formData.skills[formSkills[i]] !== modSkill.value) {
-                        modValue = formData.skills[formSkills[i]] - modSkill.value
-                    }
-                    await actor.addCustomModifier(modSkill.name, "WSForm Value", modValue, "untyped");
-                }
+                skillBonus(formData.skills, actor.data.data.skills, formData.name)
             }
 
             await featCheck(formData, formType);
             await applyResistances(formData)
 
-            // if Form Athletics/Acrobatics bonus is greater than base Athletics/Acrobatics, add
-            // Form Bonus to Athletics/Acrobatics value
-
+            // Apply any skill bonuses tied to the spell, rather than the specific form. This is
+            // where the Athletics/Acrobatics bonuses you generally see in the spell descriptions
             await skillBonus(levelAttributes.skills, actor.data.data.skills, formData.name);
 
-            // if Form AC bonus is greater than base AC, add Form Bonus to AC value
+            // AC is specifically set in each spell's description, so apply a bonus to AC if normal
+            // AC is lower than the form's value, or apply a penalty to AC if normal AC is higher
+            // than form's value
             formValue = levelAttributes.ac + actor.data.data.details.level.value;
             origValue = actor.data.data.attributes.ac.value;
-            if (formValue > origValue) {
-                const formACBonus = (formValue - origValue);
-                await actor.addCustomModifier("ac", "WSForm Bonus AC", formACBonus, "untyped");
-            }
+            const formACBonus = (formValue - origValue);
+            await actor.addCustomModifier("ac", "WSForm AC", formACBonus, "untyped");
 
-            // if Form Attack Mod is less than Unarmed Attack mod of the actor, add a +2 to Unarmed
-            // Attack mod and let the form attacks use that instead
-            formValue = levelAttributes.mod
-            if ((actor.data.data.actions).find(action =>  action.name.includes("Handwraps of Mighty Blows") )) {
-                origValue = (actor.data.data.actions).find(action => action.name.includes("Handwraps of Mighty Blows")).totalModifier
-            } else {
+            // Compare whether the actor's Fist attack has a higher modifier than the form's attack
+            // modifier. If this is case, they may use their Fist modifier.
+            
+            // If the actor has Handwraps of Mighty Blows, and you would like to be able to use
+            // them to calculate their unarmed attack modifier, remove the '//'s from 
+            // before the following 4 lines:
+
+            // if ((actor.data.data.actions).find(action =>  action.name.includes("Handwraps of Mighty Blows") )) {
+            //     origValue = (actor.data.data.actions).find(action => action.name.includes("Handwraps of Mighty Blows")).totalModifier
+            // } else {
                 origValue = ((actor.data.data.actions).find(action => action.name === "Fist")).totalModifier
-            }
-            if (formValue < (origValue + 2)) {
-                await actor.addCustomModifier("attack", "WSForm Bonus", 2, "status");
+            // }
+
+            // If the actor is using their own unarmed attack modifier instead of the form's, they
+            // get a +2 status bonus to their modifier
+            formValue = levelAttributes.mod
+            if (formValue < origValue) {
                 levelAttributes.ownMod = (origValue + 2);
                 await actor.setFlag("world", "ws_levelAttributes", levelAttributes)
             }
 
-            // rememeber original senses for reset
+            // Set a flag to remember the actor's original senses for reset
             origSenses = JSON.parse(JSON.stringify(actor.data.data.traits.senses));
             await actor.setFlag("world", "ws_origSenses", origSenses);
             await setSenses();
 
-            // remember original speed for reset
+            // Set a flag to remember the actor's original speeds for reset
             origSpeeds = JSON.parse(JSON.stringify(actor.data.data.attributes.speed));
             await actor.setFlag("world", "ws_origSpeeds", origSpeeds);
             await changeSpeeds();
 
-            // add temp HP, if Form Temp HP value is greater than already extant temp HP value
-            if (!tempHP || (tempHP < levelAttributes.temphp)) {
-                await actor.setFlag("world", "ws_tempHPChanged", tempHP)
+            // Add temp HP, if Form Temp HP value is greater than the actor's current temp HP
+            if (tempHP < levelAttributes.temphp) {
+                await actor.setFlag("world", "ws_tempHPChanged", true)
                 let newTempHP = levelAttributes.temphp
                 await actor.update({ "data.attributes.hp.temp": newTempHP });
             };
@@ -1088,13 +1198,24 @@ async function transform(html) {
             // Change image. Make sure your images are labeled with the form name (w/ correct capitalization)
             // at the end of your token name.
             let origImg = token.data.img;
+
+            // Store the original image's path in a flag
             await actor.setFlag("world", "ws_origImg", origImg)
+
+            // Find the last '.' in the file name, which should indicate where the file extension begins
             let extensionIndex = (origImg.lastIndexOf('.') - origImg.length)
+
+            // Create the new image name (of the form) by removing the file extension, adding the
+            // form name (e.g. Ape, Cat, etc) and then adding back the removed file extension at
+            // the end
             let img = origImg.slice(0, extensionIndex) + (formData.name) + origImg.slice(extensionIndex);
             await token.update({ img });
-            await actor.update({ "token.img" : img})
+            await actor.update({ "token.img" : img })
 
-            // Change size
+            // Change size. If the specific form has a size entry, use that, otherwise use the 
+            // size appropriate for the level of that spell. See Nature Incarnate for an example 
+            // where one spell has forms with different sizes (Green Man is Medium, Kaiju is 
+            // Gargantuan)
             if (formData.size) {
                 await setSize(formData.size);
             } else {
@@ -1111,26 +1232,43 @@ async function transform(html) {
 // INIT
 // --------------------------------------------------------------------------
 
+// Macro initiation checks
+
+// Error: must be selecting a token
+if (!token) {
+    ui.notifications.error("Please select a token"); 
+    return; 
+}
+
+// Error: must be selecting a play character
 if (actor.data.type !== "character") {
     ui.notifications.error("Please select a player character token."); 
     return; 
 }
 
+// Error: if the actor transformed using Spell Shape, they should use that macro to revert back
 if (isSpellShaped) {
     ui.notifications.error("Please use the Spell Shape macro"); 
     return;
 }
 
-// Populate the featNames array with the name of the required feat for each formGroup e.g "Insect Shape" or "Dragon Shape".
+// The featNames array is used to store the names of the required feats for each formGroup, e.g.
+// "Insect Shape" or "Dragon Shape"
 let featNames = [];
 formGroups.forEach(group => featNames.push(group.group)) 
 
-// From all the actor's feats, find the ones that match the names of the Wild Shape feats and put them in the wsFeats array - this will determine what forms they have access to in the dropdown.
+// Iterate through all the actor's feats, finding the ones that match the names of the Wild Shape
+// feats (that we have in the featNames array above). Put them in the wsFeats array - this will 
+// determine what forms they have access to in the dropdown menu
 let wsFeats = [];
 const allFeats = (actor.data.items).filter(item => item.type === "feat") 
 for (let i=0; i<allFeats.length; i++) {
-    let findFeat = featNames.filter(name => name.includes(allFeats[i].name))
-    wsFeats = wsFeats.concat(findFeat);
+
+    // By using "includes" here, we allow for the fact that the "Wild Shape" feat technically gives
+    // access to two different sets of forms: Pest Form and Animal Form. This will also future
+    // proof for other feats that do the same
+    let foundFeat = featNames.filter(name => name.includes(allFeats[i].name))
+    wsFeats = wsFeats.concat(foundFeat);
 }
 
 // Populate dropdown based on what Wild Shape feats the actor has, and divide them by group
@@ -1140,6 +1278,10 @@ for (let formGroup of formGroups) {
     if (wsFeats.includes(formGroup.group)) {
         content += `<optgroup label="${formGroup.group}">`
         formGroup.forms.forEach(form => {
+
+            // Some forms are only accessible if you possess secondary feats, such as Wasp form
+            // being technically under "Aerial Form" but only accessible if you have the Insect
+            // Shape feat. This checks for that
             if ( !form.extraFeat || wsFeats.includes(form.extraFeat) ) {
                 content += `<option value="${form.name}" class="${formGroup.class}">${form.name}</option>`
             }
@@ -1149,6 +1291,9 @@ for (let formGroup of formGroups) {
 }
 content += `</select>`
 
+// While not technically RAW, the macro allows you to cast Wild Shape at any spell level you have
+// access to, instead of forcing you into the highest possible level
+let heightenedLevel = Math.ceil((actor.data.data.details.level.value) / 2); 
 content += `<div style="padding: 5px 0"><label for="level">What level are you casting at?</label>
 <select name="level" id="level">
 <option value="Auto" selected>Auto</option>`
@@ -1157,8 +1302,7 @@ for (let i = 1; i <= heightenedLevel; i++){
 }
 content += `</select></div></div>`
 
-// Generate dialog
-
+// Generate the dialog to pick the form
 let d = new Dialog({
     title: "Wild Shape",
     content: content,
