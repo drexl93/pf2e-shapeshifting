@@ -59,9 +59,8 @@ Animal Form https://2e.aonprd.com/Spells.aspx?ID=10
 
 Wild Shape https://2e.aonprd.com/Spells.aspx?ID=481
 
--> Your unarmed attack bonus MUST exceed the form's attack bonus before you can benefit from the +2 status bonus.
-
--> Forms are unable to benefit from item bonuses, however it is unclear whether you factor in your item bonus from Handwraps of Mighty Blows when determining whether you have a higher unarmed attack bonus than your form's attack bonus. I have elected in this macro to take the more conservative route, not counting item bonuses when making the comparison. *However* I have included code in the macro that will allow you to use your Handwraps of Mighty Blows modifier if that is how you run it in your game. Search for "Handwraps" in the code and follow the instructions there.
+----> Your unarmed attack bonus MUST exceed the form's attack bonus before you can benefit from the +2 status bonus.  
+----> Forms are unable to benefit from item bonuses, however it is unclear whether you factor in your item bonus from Handwraps of Mighty Blows when determining whether you have a higher unarmed attack bonus than your form's attack bonus. I have elected in this macro to take the more conservative route, not counting item bonuses when making the comparison. *However* I have included code in the macro that will allow you to use your Handwraps of Mighty Blows modifier if that is how you run it in your game. Search for "Handwraps" in the code and follow the instructions there.
 
 ### Wild Shape Damage and Striking Runes
 > "If you take on a battle form with a polymorph spell, the special statistics can be adjusted only by circumstance bonuses, status bonuses, and penalties."
@@ -71,34 +70,32 @@ Polymorph Trait https://2e.aonprd.com/Traits.aspx?ID=127
 
 Striking Runes https://pf2.easytool.es/index.php?id=2918&name=striking
 
--> Striking runes are not circumstance or status bonuses, they directly increase the damage die of weapons they are etched on to. For this reason they will not modify the strikes provided by a form, which are essentially new "weapons" with their own damage dice that the form gives you access to.
+----> Striking runes are not circumstance or status bonuses, they directly increase the damage die of weapons they are etched on to. For this reason they will not modify the strikes provided by a form, which are essentially new "weapons" with their own damage dice that the form gives you access to.
 
 ### Temp HP
 > "You can have temporary Hit Points from only one source at a time. If you gain temporary Hit Points when you already have some, choose whether to keep the amount you already have and their corresponding duration or to gain the new temporary Hit Points and their duration."
 
 Temporary Hit Points https://pf2.easytool.es/index.php?id=5819&name=Temporary_Hit_Points
 
--> So if you had a lower amount of temp HP before transformation, it will be replaced by the form's temp HP, which will all disappear when you revert (when you accept temp HP, you accept their duration as well).
-
--> If you gain a higher amount of temp HP *while transformed*, it will be reduced to 0 upon reversion so you will need to adjust it manually.
+----> So if you had a lower amount of temp HP before transformation, it will be replaced by the form's temp HP, which will all disappear when you revert (when you accept temp HP, you accept their duration as well).  
+----> If you gain a higher amount of temp HP *while transformed*, it will be reduced to 0 upon reversion so you will need to adjust it manually.
 
 ### Resistances
 > "Whenever you’re polymorphed into **another** form using wild shape, you gain resistance 5 to fire." 
 
 Emphasis mine, Elemental Shape (language identical in Plant Shape, Dragon Shape) https://2e.aonprd.com/Feats.aspx?ID=335
 
--> You do not gain those resistances while in a shape that that specific feat gave you access to. For example, you do not gain a resistance 5 to fire as an Earth or Air Elemental (Fire/Water Elementals are resistant to fire because it is specifically indicated in their stats). However you would gain fire resistance 5 while being an Ape, or a Bird, or a Dragon.
+----> You do not gain those resistances while in a shape that that specific feat gave you access to. For example, you do not gain a resistance 5 to fire as an Earth or Air Elemental (Fire/Water Elementals are resistant to fire because it is specifically indicated in their stats). However you would gain fire resistance 5 while being an Ape, or a Bird, or a Dragon.
 
 ### Skills
-> "If you take on a battle form with a polymorph spell, the special statistics can be adjusted only by circumstance bonuses, status bonuses, and penalties."
+> "If you take on a battle form with a polymorph spell, the special statistics can be adjusted only by circumstance bonuses, status bonuses, and penalties."  
 
 Polymorph Trait https://2e.aonprd.com/Traits.aspx?ID=127
-> "(Skill) modifier of +(x), unless your own modifier is higher."
+> "(Skill) modifier of +(x), unless your own modifier is higher."  
 
 Rules text from Form spells e.g. https://2e.aonprd.com/Spells.aspx?ID=10
 
--> You cannot be affected by item bonuses, penalties, or the untyped Armour Check Penalty while transformed. A counterbalancing modifier named "WSForm Balancer" or "Spellform Balancer" is added to the appropriate skills to counterbalance any outstanding item bonuses/penalties or the ACP.
-
+----> You cannot be affected by item bonuses, penalties, or the untyped Armour Check Penalty while transformed. A counterbalancing modifier named "WSForm Balancer" or "Spellform Balancer" is added to the appropriate skills to counterbalance any outstanding item bonuses/penalties or the ACP.
 
 ### Changelog v. 6.0.8:
 * Modified a few rule interpretations and developed more extensive documentation on them (see above)
