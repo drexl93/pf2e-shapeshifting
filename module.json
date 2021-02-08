@@ -3,9 +3,16 @@
     "title": "PF2e Shapeshifting",
     "description": "Macros to help facilitate shapeshifting in PF2e",
     "author": "drexl93",
-    "version": "6.0.8",
+    "version": "6.0.9",
     "minimumCoreVersion": "0.7.0",
     "compatibleCoreVersion": "0.7.7",
+    "dependencies":[
+        {
+            "name":"furnace",
+            "manifest":"https://github.com/kakaroto/fvtt-module-furnace/releases/download/latest/module.json",
+            "type":"module"
+        }
+    ],
     "packs": [
         {
             "name": "PF2e Shapeshifting",
