@@ -1,5 +1,7 @@
 # Pathfinder 2E Shapeshifting Macros
 
+## NO LONGER SUPPORTED: With Wild Shape now being a core part of the PF2e system, there's no need for these macros any longer! Yay! So I won't be updating them unless down the road something else comes up that I feel would improve on core functionality. For now - that's all folks!
+
 ## NOTE: I strongly recommend returning to your normal shape at the end of a game session, just in case a Pathfinder 2E Game System update occurs that might change the data structures the macros use.
 
 
